@@ -48,11 +48,6 @@ final class TransitionBlockerList implements \IteratorAggregate, \Countable
         return false;
     }
 
-    public function clear(): void
-    {
-        $this->blockers = [];
-    }
-
     public function isEmpty(): bool
     {
         return !$this->blockers;

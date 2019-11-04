@@ -13,8 +13,10 @@ trait WorkflowBuilderTrait
         $places = range('a', 'g');
 
         $transitions = [];
-        $transitions[] = new Transition('t1', 'a', ['b', 'c']);
-        $transitions[] = new Transition('t2', ['b', 'c'], 'd');
+        $transitions[] = new Transition('t1-1', 'a', 'b');
+        $transitions[] = new Transition('t1-2', 'a', 'c');
+        $transitions[] = new Transition('t2', 'b', 'd');
+        $transitions[] = new Transition('t2', 'c', 'd');
         $transitionWithMetadataDumpStyle = new Transition('t3', 'd', 'e');
         $transitions[] = $transitionWithMetadataDumpStyle;
         $transitions[] = new Transition('t4', 'd', 'f');
@@ -32,15 +34,15 @@ trait WorkflowBuilderTrait
         return new Definition($places, $transitions, null, $inMemoryMetadataStore);
 
         // The graph looks like:
-        // +---+     +----+     +---+     +----+     +----+     +----+     +----+     +----+     +---+
-        // | a | --> | t1 | --> | c | --> | t2 | --> | d  | --> | t4 | --> | f  | --> | t6 | --> | g |
-        // +---+     +----+     +---+     +----+     +----+     +----+     +----+     +----+     +---+
-        //             |                    ^          |                                           ^
-        //             |                    |          |                                           |
-        //             v                    |          v                                           |
-        //           +----+                 |        +----+     +----+     +----+                  |
-        //           | b  | ----------------+        | t3 | --> | e  | --> | t5 | -----------------+
-        //           +----+                          +----+     +----+     +----+
+        // +---+     *======*     +---+     *====*     +----+     *====*     +----+     *====*     +---+
+        // | a | --> | t1-1 | --> | b | --> | t2 | --> | d  | --> | t4 | --> | f  | --> | t6 | --> | g |
+        // +---+     *======*     +---+     *====*     +----+     *====*     +----+     *====*     +---+
+        //   |                                 ^         |                                           ^
+        //   |                                 |         |                                           |
+        //   v                                 |         v                                           |
+        // *======*     +----+                 |       *====*     +----+     *====*                  |
+        // | t1-2 | --> | c  | ----------------+       | t3 | --> | e  | --> | t5 | -----------------+
+        // *======*     +----+                         *====*     +----+     *====*
     }
 
     private function createSimpleWorkflowDefinition()
@@ -83,7 +85,8 @@ trait WorkflowBuilderTrait
         $places = range('a', 'c');
 
         $transitions = [];
-        $transitions[] = new Transition('a_to_bc', 'a', ['b', 'c']);
+        $transitions[] = new Transition('a_to_b', 'a', 'b');
+        $transitions[] = new Transition('a_to_c', 'a', 'c');
         $transitions[] = new Transition('b_to_c', 'b', 'c');
         $transitions[] = new Transition('to_a', 'b', 'a');
         $transitions[] = new Transition('to_a', 'c', 'a');
@@ -91,19 +94,20 @@ trait WorkflowBuilderTrait
         return new Definition($places, $transitions);
 
         // The graph looks like:
-        //   +------------------------------------------------------------+
-        //   |                                                            |
-        //   |                                                            |
-        //   |         +----------------------------------------+         |
-        //   v         |                                        v         |
-        // +---+     +---------+     +---+     +--------+     +---+     +------+
-        // | a | --> | a_to_bc | --> | b | --> | b_to_c | --> | c | --> | to_a | -+
-        // +---+     +---------+     +---+     +--------+     +---+     +------+  |
-        //   ^                         |                                  ^       |
-        //   |                         +----------------------------------+       |
-        //   |                                                                    |
-        //   |                                                                    |
-        //   +--------------------------------------------------------------------+
+        //                          *======*
+        //   +--------------------- | to_a | <-----------------+
+        //   |                      *======*                   |
+        //   |                         ^                       |
+        //   |                         |                       |
+        //   |        *========*     +---+     *========*      |
+        //   v    +-> | a_to_b | --> | b | --> | b_to_c |      |
+        // +---+ -+   *========*     +---+     *========*      |
+        // | a |                                   |           |
+        // +---+ -+                                |           |
+        //        |                                v           |
+        //        |   *========*                 +---+         |
+        //        +-> | a_to_c | --------------> | c | --------+
+        //            *========*                 +---+
     }
 
     private function createComplexStateMachineDefinition()

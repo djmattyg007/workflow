@@ -12,7 +12,6 @@
 namespace Symfony\Component\Workflow\Dumper;
 
 use Symfony\Component\Workflow\Definition;
-use Symfony\Component\Workflow\Marking;
 
 /**
  * DumperInterface is the interface implemented by workflow dumper classes.
@@ -25,7 +24,10 @@ interface DumperInterface
     /**
      * Dumps a workflow definition.
      *
+     * @param Definition $definition
+     * @param string|null $state
+     * @param array $options
      * @return string The representation of the workflow
      */
-    public function dump(Definition $definition, Marking $marking = null, array $options = []);
+    public function dump(Definition $definition, ?string $state = null, array $options = []);
 }

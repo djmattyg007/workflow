@@ -12,7 +12,6 @@
 namespace Symfony\Component\Workflow\Dumper;
 
 use Symfony\Component\Workflow\Definition;
-use Symfony\Component\Workflow\Marking;
 
 class StateMachineGraphvizDumper extends GraphvizDumper
 {
@@ -27,9 +26,9 @@ class StateMachineGraphvizDumper extends GraphvizDumper
      *  * node: The default options for nodes (places)
      *  * edge: The default options for edges
      */
-    public function dump(Definition $definition, Marking $marking = null, array $options = [])
+    public function dump(Definition $definition, ?string $state = null, array $options = [])
     {
-        $places = $this->findPlaces($definition, $marking);
+        $places = $this->findPlaces($definition, $state);
         $edges = $this->findEdges($definition);
 
         $options = array_replace_recursive(self::$defaultOptions, $options);
@@ -64,16 +63,12 @@ class StateMachineGraphvizDumper extends GraphvizDumper
                 $attributes['color'] = $arrowColor;
             }
 
-            foreach ($transition->getFroms() as $from) {
-                foreach ($transition->getTos() as $to) {
-                    $edge = [
-                        'name' => $transitionName,
-                        'to' => $to,
-                        'attributes' => $attributes,
-                    ];
-                    $edges[$from][] = $edge;
-                }
-            }
+            $edge = [
+                "name" => $transitionName,
+                "to" => $transition->getTo(),
+                "attributes" => $attributes,
+            ];
+            $edges[$transition->getFrom()][] = $edge;
         }
 
         return $edges;

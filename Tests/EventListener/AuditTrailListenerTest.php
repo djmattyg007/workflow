@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\AbstractLogger;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Workflow\EventListener\AuditTrailListener;
-use Symfony\Component\Workflow\MarkingStore\MethodMarkingStore;
 use Symfony\Component\Workflow\Tests\Subject;
 use Symfony\Component\Workflow\Tests\WorkflowBuilderTrait;
 use Symfony\Component\Workflow\Workflow;
@@ -19,14 +18,14 @@ class AuditTrailListenerTest extends TestCase
     {
         $definition = $this->createSimpleWorkflowDefinition();
 
-        $object = new Subject();
+        $object = new Subject('a');
 
         $logger = new Logger();
 
         $ed = new EventDispatcher();
         $ed->addSubscriber(new AuditTrailListener($logger));
 
-        $workflow = new Workflow($definition, new MethodMarkingStore(), $ed);
+        $workflow = new Workflow($definition, null, $ed);
 
         $workflow->apply($object, 't1');
 

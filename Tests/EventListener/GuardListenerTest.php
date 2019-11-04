@@ -15,7 +15,6 @@ use Symfony\Component\Workflow\Event\GuardEvent;
 use Symfony\Component\Workflow\EventListener\ExpressionLanguage;
 use Symfony\Component\Workflow\EventListener\GuardExpression;
 use Symfony\Component\Workflow\EventListener\GuardListener;
-use Symfony\Component\Workflow\Marking;
 use Symfony\Component\Workflow\Tests\Subject;
 use Symfony\Component\Workflow\Transition;
 use Symfony\Component\Workflow\WorkflowInterface;
@@ -135,12 +134,12 @@ class GuardListenerTest extends TestCase
 
     private function createEvent(Transition $transition = null)
     {
-        $subject = new Subject();
+        $subject = new Subject('from');
         $transition = $transition ?: new Transition('name', 'from', 'to');
 
         $workflow = $this->getMockBuilder(WorkflowInterface::class)->getMock();
 
-        return new GuardEvent($subject, new Marking($subject->getMarking() ?? []), $transition, $workflow);
+        return new GuardEvent($subject, $subject->getState(), $transition, $workflow);
     }
 
     private function configureAuthenticationChecker($isUsed, $granted = true)

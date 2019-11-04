@@ -4,8 +4,8 @@ namespace Symfony\Component\Workflow\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Workflow\Definition;
-use Symfony\Component\Workflow\MarkingStore\MarkingStoreInterface;
 use Symfony\Component\Workflow\Registry;
+use Symfony\Component\Workflow\StateAccessor\StateAccessorInterface;
 use Symfony\Component\Workflow\SupportStrategy\WorkflowSupportStrategyInterface;
 use Symfony\Component\Workflow\Workflow;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -18,9 +18,33 @@ class RegistryTest extends TestCase
     {
         $this->registry = new Registry();
 
-        $this->registry->addWorkflow(new Workflow(new Definition([], []), $this->getMockBuilder(MarkingStoreInterface::class)->getMock(), $this->getMockBuilder(EventDispatcherInterface::class)->getMock(), 'workflow1'), $this->createWorkflowSupportStrategy(Subject1::class));
-        $this->registry->addWorkflow(new Workflow(new Definition([], []), $this->getMockBuilder(MarkingStoreInterface::class)->getMock(), $this->getMockBuilder(EventDispatcherInterface::class)->getMock(), 'workflow2'), $this->createWorkflowSupportStrategy(Subject2::class));
-        $this->registry->addWorkflow(new Workflow(new Definition([], []), $this->getMockBuilder(MarkingStoreInterface::class)->getMock(), $this->getMockBuilder(EventDispatcherInterface::class)->getMock(), 'workflow3'), $this->createWorkflowSupportStrategy(Subject2::class));
+        $this->registry->addWorkflow(
+            new Workflow(
+                new Definition([], []),
+                $this->getMockBuilder(StateAccessorInterface::class)->getMock(),
+                $this->getMockBuilder(EventDispatcherInterface::class)->getMock(),
+                'workflow1'
+            ),
+            $this->createWorkflowSupportStrategy(Subject1::class)
+        );
+        $this->registry->addWorkflow(
+            new Workflow(
+                new Definition([], []),
+                $this->getMockBuilder(StateAccessorInterface::class)->getMock(),
+                $this->getMockBuilder(EventDispatcherInterface::class)->getMock(),
+                'workflow2'
+            ),
+            $this->createWorkflowSupportStrategy(Subject2::class)
+        );
+        $this->registry->addWorkflow(
+            new Workflow(
+                new Definition([], []),
+                $this->getMockBuilder(StateAccessorInterface::class)->getMock(),
+                $this->getMockBuilder(EventDispatcherInterface::class)->getMock(),
+                'workflow3'
+            ),
+            $this->createWorkflowSupportStrategy(Subject2::class)
+        );
     }
 
     protected function tearDown(): void

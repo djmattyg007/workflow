@@ -17,33 +17,45 @@ namespace Symfony\Component\Workflow;
  */
 class Transition
 {
+    /**
+     * @var string
+     */
     private $name;
-    private $froms;
-    private $tos;
 
     /**
-     * @param string|string[] $froms
-     * @param string|string[] $tos
+     * @var string
      */
-    public function __construct(string $name, $froms, $tos)
+    private $from;
+
+    /**
+     * @var string
+     */
+    private $to;
+
+    /**
+     * @param string $name
+     * @param string $from
+     * @param string $to
+     */
+    public function __construct(string $name, string $from, string $to)
     {
         $this->name = $name;
-        $this->froms = (array) $froms;
-        $this->tos = (array) $tos;
+        $this->from = $from;
+        $this->to = $to;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getFroms()
+    public function getFrom(): string
     {
-        return $this->froms;
+        return $this->from;
     }
 
-    public function getTos()
+    public function getTo(): string
     {
-        return $this->tos;
+        return $this->to;
     }
 }

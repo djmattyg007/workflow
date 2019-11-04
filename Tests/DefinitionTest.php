@@ -15,7 +15,7 @@ class DefinitionTest extends TestCase
 
         $this->assertCount(5, $definition->getPlaces());
 
-        $this->assertEquals(['a'], $definition->getInitialPlaces());
+        $this->assertEquals('a', $definition->getInitialPlace());
     }
 
     public function testSetInitialPlace()
@@ -23,15 +23,7 @@ class DefinitionTest extends TestCase
         $places = range('a', 'e');
         $definition = new Definition($places, [], $places[3]);
 
-        $this->assertEquals([$places[3]], $definition->getInitialPlaces());
-    }
-
-    public function testSetInitialPlaces()
-    {
-        $places = range('a', 'e');
-        $definition = new Definition($places, [], ['a', 'e']);
-
-        $this->assertEquals(['a', 'e'], $definition->getInitialPlaces());
+        $this->assertEquals($places[3], $definition->getInitialPlace());
     }
 
     public function testSetInitialPlaceAndPlaceIsNotDefined()

@@ -15,7 +15,7 @@ class WorkflowValidatorTest extends TestCase
     public function testWorkflowWithInvalidNames()
     {
         $this->expectException('Symfony\Component\Workflow\Exception\InvalidDefinitionException');
-        $this->expectExceptionMessage('All transitions for a place must have an unique name. Multiple transitions named "t1" where found for place "a" in workflow "foo".');
+        $this->expectExceptionMessage('All transitions for a place must have a unique name. Multiple transitions named "t1" were found for place "a" in workflow "foo".');
         $places = range('a', 'c');
 
         $transitions = [];

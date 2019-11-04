@@ -32,7 +32,7 @@ class TransitionException extends LogicException
         $this->workflow = $workflow;
     }
 
-    public function getSubject()
+    public function getSubject(): object
     {
         return $this->subject;
     }

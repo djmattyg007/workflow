@@ -22,10 +22,25 @@ use Symfony\Component\Workflow\Metadata\MetadataStoreInterface;
  */
 class DefinitionBuilder
 {
+    /**
+     * @var string[]
+     */
     private $places = [];
+
+    /**
+     * @var Transition[]
+     */
     private $transitions = [];
-    private $initialPlaces;
-    private $metadataStore;
+
+    /**
+     * @var string|null
+     */
+    private $initialPlace = null;
+
+    /**
+     * @var MetadataStoreInterface|null
+     */
+    private $metadataStore = null;
 
     /**
      * @param string[]     $places
@@ -40,97 +55,64 @@ class DefinitionBuilder
     /**
      * @return Definition
      */
-    public function build()
+    public function build(): Definition
     {
-        return new Definition($this->places, $this->transitions, $this->initialPlaces, $this->metadataStore);
+        return new Definition($this->places, $this->transitions, $this->initialPlace, $this->metadataStore);
     }
 
     /**
-     * Clear all data in the builder.
-     *
-     * @return $this
+     * @param string $initialPlaces
      */
-    public function clear()
+    public function setInitialPlace(string $initialPlace): void
     {
-        $this->places = [];
-        $this->transitions = [];
-        $this->initialPlaces = null;
-        $this->metadataStore = null;
-
-        return $this;
+        $this->initialPlace = $initialPlace;
     }
 
     /**
-     * @param string|string[]|null $initialPlaces
-     *
-     * @return $this
+     * @param string $place
      */
-    public function setInitialPlaces($initialPlaces)
+    public function addPlace(string $place): void
     {
-        $this->initialPlaces = $initialPlaces;
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function addPlace(string $place)
-    {
-        if (!$this->places) {
+        if ($this->initialPlace === null) {
             $this->initialPlaces = $place;
         }
 
         $this->places[$place] = $place;
-
-        return $this;
     }
 
     /**
      * @param string[] $places
-     *
-     * @return $this
      */
-    public function addPlaces(array $places)
+    public function addPlaces(array $places): void
     {
         foreach ($places as $place) {
             $this->addPlace($place);
         }
-
-        return $this;
     }
 
     /**
      * @param Transition[] $transitions
-     *
-     * @return $this
      */
-    public function addTransitions(array $transitions)
+    public function addTransitions(array $transitions): void
     {
         foreach ($transitions as $transition) {
             $this->addTransition($transition);
         }
-
-        return $this;
     }
 
     /**
-     * @return $this
+     * @param Transition $transition
      */
-    public function addTransition(Transition $transition)
+    public function addTransition(Transition $transition): void
     {
         $this->transitions[] = $transition;
-
-        return $this;
     }
 
     /**
-     * @return $this
+     * @param MetadataStoreInterface $metadataStore
      */
-    public function setMetadataStore(MetadataStoreInterface $metadataStore)
+    public function setMetadataStore(MetadataStoreInterface $metadataStore): void
     {
         $this->metadataStore = $metadataStore;
-
-        return $this;
     }
 }

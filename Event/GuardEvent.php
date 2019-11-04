@@ -23,18 +23,24 @@ use Symfony\Component\Workflow\WorkflowInterface;
  */
 final class GuardEvent extends Event
 {
+    /**
+     * @var TransitionBlockerList
+     */
     private $transitionBlockerList;
 
     /**
      * {@inheritdoc}
      */
-    public function __construct(object $subject, Marking $marking, Transition $transition, WorkflowInterface $workflow = null)
+    public function __construct(object $subject, string $state, Transition $transition, WorkflowInterface $workflow = null)
     {
-        parent::__construct($subject, $marking, $transition, $workflow);
+        parent::__construct($subject, $state, $transition, $workflow);
 
         $this->transitionBlockerList = new TransitionBlockerList();
     }
 
+    /**
+     * @return bool
+     */
     public function isBlocked(): bool
     {
         return !$this->transitionBlockerList->isEmpty();

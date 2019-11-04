@@ -25,7 +25,7 @@ class InMemoryMetadataStoreTest extends TestCase
             ],
         ];
         $transitionsMetadata = new \SplObjectStorage();
-        $this->transition = new Transition('transition_1', [], []);
+        $this->transition = new Transition('transition_1', 'from_1', 'to_1');
         $transitionsMetadata[$this->transition] = [
             'title' => 'transition_1 title',
         ];
@@ -53,7 +53,7 @@ class InMemoryMetadataStoreTest extends TestCase
 
     public function testGetUnexistingTransitionMetadata()
     {
-        $metadataBag = $this->store->getTransitionMetadata(new Transition('transition_2', [], []));
+        $metadataBag = $this->store->getTransitionMetadata(new Transition('transition_2', 'from_2', 'to_2'));
         $this->assertSame([], $metadataBag);
     }
 
@@ -72,7 +72,7 @@ class InMemoryMetadataStoreTest extends TestCase
         $this->assertNull($this->store->getMetadata('description', 'place_b'));
         $this->assertSame('transition_1 title', $this->store->getMetadata('title', $this->transition));
         $this->assertNull($this->store->getMetadata('description', $this->transition));
-        $this->assertNull($this->store->getMetadata('description', new Transition('transition_2', [], [])));
+        $this->assertNull($this->store->getMetadata('description', new Transition('transition_2', 'from_2', 'to_2')));
     }
 
     public function testGetMetadataWithUnknownType()

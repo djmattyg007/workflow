@@ -12,7 +12,6 @@
 namespace Symfony\Component\Workflow\Dumper;
 
 use Symfony\Component\Workflow\Definition;
-use Symfony\Component\Workflow\Marking;
 
 /**
  * GraphvizDumper dumps a workflow as a graphviz file.
@@ -43,9 +42,9 @@ class GraphvizDumper implements DumperInterface
      *  * node: The default options for nodes (places + transitions)
      *  * edge: The default options for edges
      */
-    public function dump(Definition $definition, Marking $marking = null, array $options = [])
+    public function dump(Definition $definition, ?string $state = null, array $options = [])
     {
-        $places = $this->findPlaces($definition, $marking);
+        $places = $this->findPlaces($definition, $state);
         $transitions = $this->findTransitions($definition);
         $edges = $this->findEdges($definition);
 
@@ -61,7 +60,7 @@ class GraphvizDumper implements DumperInterface
     /**
      * @internal
      */
-    protected function findPlaces(Definition $definition, Marking $marking = null): array
+    protected function findPlaces(Definition $definition, ?string $state = null): array
     {
         $workflowMetadata = $definition->getMetadataStore();
 
@@ -69,10 +68,10 @@ class GraphvizDumper implements DumperInterface
 
         foreach ($definition->getPlaces() as $place) {
             $attributes = [];
-            if (\in_array($place, $definition->getInitialPlaces(), true)) {
+            if ($place === $definition->getInitialPlace()) {
                 $attributes['style'] = 'filled';
             }
-            if ($marking && $marking->has($place)) {
+            if ($state && $state === $place) {
                 $attributes['color'] = '#FF0000';
                 $attributes['shape'] = 'doublecircle';
             }
@@ -168,22 +167,18 @@ class GraphvizDumper implements DumperInterface
         foreach ($definition->getTransitions() as $i => $transition) {
             $transitionName = $workflowMetadata->getMetadata('label', $transition) ?? $transition->getName();
 
-            foreach ($transition->getFroms() as $from) {
-                $dotEdges[] = [
-                    'from' => $from,
-                    'to' => $transitionName,
-                    'direction' => 'from',
-                    'transition_number' => $i,
-                ];
-            }
-            foreach ($transition->getTos() as $to) {
-                $dotEdges[] = [
-                    'from' => $transitionName,
-                    'to' => $to,
-                    'direction' => 'to',
-                    'transition_number' => $i,
-                ];
-            }
+            $dotEdges[] = [
+                'from' => $transition->getFrom(),
+                'to' => $transitionName,
+                'direction' => 'from',
+                'transition_number' => $i,
+            ];
+            $dotEdges[] = [
+                'from' => $transitionName,
+                'to' => $transition->getTo(),
+                'direction' => 'to',
+                'transition_number' => $i,
+            ];
         }
 
         return $dotEdges;

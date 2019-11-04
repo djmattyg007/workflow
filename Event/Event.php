@@ -22,42 +22,82 @@ use Symfony\Contracts\EventDispatcher\Event as BaseEvent;
  */
 class Event extends BaseEvent
 {
+    /**
+     * @var object
+     */
     private $subject;
-    private $marking;
+
+    /**
+     * @var string
+     */
+    private $state;
+
+    /**
+     * @var Transition|null
+     */
     private $transition;
+
+    /**
+     * @var WorkflowInterface|null
+     */
     private $workflow;
 
-    public function __construct(object $subject, Marking $marking, Transition $transition = null, WorkflowInterface $workflow = null)
+    /**
+     * @param object $subject
+     * @param string $state
+     * @param Transition|null $transition
+     * @param WorkflowInterface|null $workflow
+     */
+    public function __construct(object $subject, string $state, Transition $transition = null, WorkflowInterface $workflow = null)
     {
         $this->subject = $subject;
-        $this->marking = $marking;
+        $this->state = $state;
         $this->transition = $transition;
         $this->workflow = $workflow;
     }
 
-    public function getMarking()
-    {
-        return $this->marking;
-    }
-
-    public function getSubject()
+    /**
+     * @return object
+     */
+    public function getSubject(): object
     {
         return $this->subject;
     }
 
-    public function getTransition()
+    /**
+     * @return string
+     */
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    /**
+     * @return Transition|null
+     */
+    public function getTransition(): ?Transition
     {
         return $this->transition;
     }
 
-    public function getWorkflow(): WorkflowInterface
+    /**
+     * @return WorkflowInterface|null
+     */
+    public function getWorkflow(): ?WorkflowInterface
     {
         return $this->workflow;
     }
 
-    public function getWorkflowName()
+    /**
+     * @return string
+     */
+    public function getWorkflowName(): string
     {
-        return $this->workflow->getName();
+        if ($this->workflow !== null) {
+            return $this->workflow->getName();
+        } else {
+            return '';
+        }
     }
 
     public function getMetadata(string $key, object $subject)

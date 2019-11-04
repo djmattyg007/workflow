@@ -4,7 +4,6 @@ namespace Symfony\Component\Workflow\Tests\Dumper;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Workflow\Dumper\StateMachineGraphvizDumper;
-use Symfony\Component\Workflow\Marking;
 use Symfony\Component\Workflow\Tests\WorkflowBuilderTrait;
 
 class StateMachineGraphvizDumperTest extends TestCase
@@ -18,7 +17,7 @@ class StateMachineGraphvizDumperTest extends TestCase
         $this->dumper = new StateMachineGraphvizDumper();
     }
 
-    public function testDumpWithoutMarking()
+    public function testDumpWithoutState()
     {
         $definition = $this->createComplexStateMachineDefinition();
 
@@ -45,10 +44,10 @@ EOGRAPH;
         $this->assertEquals($expected, $dump);
     }
 
-    public function testDumpWithMarking()
+    public function testDumpWithState()
     {
         $definition = $this->createComplexStateMachineDefinition();
-        $marking = new Marking(['b' => 1]);
+        $state = 'b';
 
         $expected = <<<'EOGRAPH'
 digraph workflow {
@@ -68,7 +67,7 @@ digraph workflow {
 
 EOGRAPH;
 
-        $dump = $this->dumper->dump($definition, $marking);
+        $dump = $this->dumper->dump($definition, $state);
 
         $this->assertEquals($expected, $dump);
     }

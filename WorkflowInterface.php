@@ -12,8 +12,8 @@
 namespace Symfony\Component\Workflow;
 
 use Symfony\Component\Workflow\Exception\LogicException;
-use Symfony\Component\Workflow\MarkingStore\MarkingStoreInterface;
 use Symfony\Component\Workflow\Metadata\MetadataStoreInterface;
+use Symfony\Component\Workflow\StateAccessor\StateAccessorInterface;
 
 /**
  * @author Amrouche Hamza <hamza.simperfit@gmail.com>
@@ -21,56 +21,66 @@ use Symfony\Component\Workflow\Metadata\MetadataStoreInterface;
 interface WorkflowInterface
 {
     /**
-     * Returns the object's Marking.
+     * Returns the object's current state.
      *
-     * @return Marking The Marking
-     *
+     * @return string
      * @throws LogicException
      */
-    public function getMarking(object $subject);
+    public function getState(object $subject): string;
 
     /**
      * Returns true if the transition is enabled.
      *
+     * @param object $subject
+     * @param string $transitionName
      * @return bool true if the transition is enabled
      */
-    public function can(object $subject, string $transitionName);
+    public function can(object $subject, string $transitionName): bool;
 
     /**
      * Builds a TransitionBlockerList to know why a transition is blocked.
+     *
+     * @param object $subject
+     * @param string $transitionName
+     * @return TransitionBlockerList
      */
     public function buildTransitionBlockerList(object $subject, string $transitionName): TransitionBlockerList;
 
     /**
      * Fire a transition.
      *
-     * @return Marking The new Marking
-     *
+     * @param object $subject
+     * @param string $transitionName
+     * @param array $context
+     * @return string
      * @throws LogicException If the transition is not applicable
      */
-    public function apply(object $subject, string $transitionName, array $context = []);
+    public function apply(object $subject, string $transitionName, array $context = []): string;
 
     /**
      * Returns all enabled transitions.
      *
      * @return Transition[] All enabled transitions
      */
-    public function getEnabledTransitions(object $subject);
+    public function getEnabledTransitions(object $subject): array;
 
     /**
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * @return Definition
      */
-    public function getDefinition();
+    public function getDefinition(): Definition;
 
     /**
-     * @return MarkingStoreInterface
+     * @return StateAccessorInterface
      */
-    public function getMarkingStore();
+    public function getStateAccessor(): StateAccessorInterface;
 
+    /**
+     * @var MetadataStoreInterface
+     */
     public function getMetadataStore(): MetadataStoreInterface;
 }

@@ -22,17 +22,33 @@ use Symfony\Component\Workflow\Metadata\MetadataStoreInterface;
  */
 final class Definition
 {
+    /**
+     * @var string[]
+     */
     private $places = [];
+
+    /**
+     * @var Transition[]
+     */
     private $transitions = [];
-    private $initialPlaces = [];
+
+    /**
+     * @var string|null
+     */
+    private $initialPlace = null;
+
+    /**
+     * @var MetadataStoreInterface
+     */
     private $metadataStore;
 
     /**
-     * @param string[]             $places
-     * @param Transition[]         $transitions
-     * @param string|string[]|null $initialPlaces
+     * @param string[] $places
+     * @param Transition[] $transitions
+     * @param string|null $initialPlace
+     * @param MetadataStoreInterface|null $metadataStore
      */
-    public function __construct(array $places, array $transitions, $initialPlaces = null, MetadataStoreInterface $metadataStore = null)
+    public function __construct(array $places, array $transitions, ?string $initialPlace = null, MetadataStoreInterface $metadataStore = null)
     {
         foreach ($places as $place) {
             $this->addPlace($place);
@@ -42,17 +58,17 @@ final class Definition
             $this->addTransition($transition);
         }
 
-        $this->setInitialPlaces($initialPlaces);
+        $this->setInitialPlace($initialPlace);
 
         $this->metadataStore = $metadataStore ?: new InMemoryMetadataStore();
     }
 
     /**
-     * @return string[]
+     * @return string
      */
-    public function getInitialPlaces(): array
+    public function getInitialPlace(): string
     {
-        return $this->initialPlaces;
+        return $this->initialPlace;
     }
 
     /**
@@ -71,51 +87,57 @@ final class Definition
         return $this->transitions;
     }
 
+    /**
+     * @return MetadataStoreInterface
+     */
     public function getMetadataStore(): MetadataStoreInterface
     {
         return $this->metadataStore;
     }
 
-    private function setInitialPlaces($places = null)
+    /**
+     * @param string|null $place
+     */
+    private function setInitialPlace(?string $place = null): void
     {
-        if (!$places) {
+        if (!$place) {
             return;
         }
 
-        $places = (array) $places;
-
-        foreach ($places as $place) {
-            if (!isset($this->places[$place])) {
-                throw new LogicException(sprintf('Place "%s" cannot be the initial place as it does not exist.', $place));
-            }
+        if (!isset($this->places[$place])) {
+            throw new LogicException(sprintf('Place "%s" cannot be the initial place as it does not exist.', $place));
         }
 
-        $this->initialPlaces = $places;
+        $this->initialPlace = $place;
     }
 
-    private function addPlace(string $place)
+    /**
+     * @param string $place
+     */
+    private function addPlace(string $place): void
     {
-        if (!\count($this->places)) {
-            $this->initialPlaces = [$place];
+        if ($this->initialPlace === null) {
+            $this->initialPlace = $place;
         }
 
         $this->places[$place] = $place;
     }
 
-    private function addTransition(Transition $transition)
+    /**
+     * @param Transition $transition
+     */
+    private function addTransition(Transition $transition): void
     {
         $name = $transition->getName();
+        $from = $transition->getFrom();
+        $to = $transition->getTo();
 
-        foreach ($transition->getFroms() as $from) {
-            if (!isset($this->places[$from])) {
-                throw new LogicException(sprintf('Place "%s" referenced in transition "%s" does not exist.', $from, $name));
-            }
+        if (!isset($this->places[$from])) {
+            throw new LogicException(sprintf('Place "%s" referenced in transition "%s" does not exist.', $from, $name));
         }
 
-        foreach ($transition->getTos() as $to) {
-            if (!isset($this->places[$to])) {
-                throw new LogicException(sprintf('Place "%s" referenced in transition "%s" does not exist.', $to, $name));
-            }
+        if (!isset($this->places[$to])) {
+            throw new LogicException(sprintf('Place "%s" referenced in transition "%s" does not exist.', $to, $name));
         }
 
         $this->transitions[] = $transition;

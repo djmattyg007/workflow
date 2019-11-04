@@ -1,12 +1,13 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests\Validator;
+namespace MattyG\StateMachine\Tests\Validator;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Workflow\Definition;
-use Symfony\Component\Workflow\Tests\WorkflowBuilderTrait;
-use Symfony\Component\Workflow\Transition;
-use Symfony\Component\Workflow\Validator\WorkflowValidator;
+use MattyG\StateMachine\Definition;
+use MattyG\StateMachine\Exception\InvalidDefinitionException;
+use MattyG\StateMachine\Tests\WorkflowBuilderTrait;
+use MattyG\StateMachine\Transition;
+use MattyG\StateMachine\Validator\WorkflowValidator;
 
 class WorkflowValidatorTest extends TestCase
 {
@@ -14,7 +15,7 @@ class WorkflowValidatorTest extends TestCase
 
     public function testWorkflowWithInvalidNames()
     {
-        $this->expectException('Symfony\Component\Workflow\Exception\InvalidDefinitionException');
+        $this->expectException(InvalidDefinitionException::class);
         $this->expectExceptionMessage('All transitions for a place must have a unique name. Multiple transitions named "t1" were found for place "a" in workflow "foo".');
         $places = range('a', 'c');
 

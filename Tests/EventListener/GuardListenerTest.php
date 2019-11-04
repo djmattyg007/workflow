@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests\EventListener;
+namespace MattyG\StateMachine\Tests\EventListener;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
@@ -11,13 +11,13 @@ use Symfony\Component\Security\Core\Role\RoleHierarchy;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Workflow\Event\GuardEvent;
-use Symfony\Component\Workflow\EventListener\ExpressionLanguage;
-use Symfony\Component\Workflow\EventListener\GuardExpression;
-use Symfony\Component\Workflow\EventListener\GuardListener;
-use Symfony\Component\Workflow\Tests\Subject;
-use Symfony\Component\Workflow\Transition;
-use Symfony\Component\Workflow\WorkflowInterface;
+use MattyG\StateMachine\Event\GuardEvent;
+use MattyG\StateMachine\EventListener\ExpressionLanguage;
+use MattyG\StateMachine\EventListener\GuardExpression;
+use MattyG\StateMachine\EventListener\GuardListener;
+use MattyG\StateMachine\Tests\Subject;
+use MattyG\StateMachine\Transition;
+use MattyG\StateMachine\WorkflowInterface;
 
 class GuardListenerTest extends TestCase
 {

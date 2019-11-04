@@ -1,10 +1,11 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests\Metadata;
+namespace MattyG\StateMachine\Tests\Metadata;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Workflow\Metadata\InMemoryMetadataStore;
-use Symfony\Component\Workflow\Transition;
+use MattyG\StateMachine\Exception\InvalidArgumentException;
+use MattyG\StateMachine\Metadata\InMemoryMetadataStore;
+use MattyG\StateMachine\Transition;
 
 /**
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
@@ -77,7 +78,7 @@ class InMemoryMetadataStoreTest extends TestCase
 
     public function testGetMetadataWithUnknownType()
     {
-        $this->expectException('Symfony\Component\Workflow\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Could not find a MetadataBag for the subject of type "boolean".');
         $this->store->getMetadata('title', true);
     }

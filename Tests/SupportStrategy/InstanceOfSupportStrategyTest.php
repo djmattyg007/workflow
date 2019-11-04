@@ -1,10 +1,10 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests\SupportStrategy;
+namespace MattyG\StateMachine\Tests\SupportStrategy;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Workflow\SupportStrategy\InstanceOfSupportStrategy;
-use Symfony\Component\Workflow\Workflow;
+use MattyG\StateMachine\SupportStrategy\InstanceOfSupportStrategy;
+use MattyG\StateMachine\Workflow;
 
 class InstanceOfSupportStrategyTest extends TestCase
 {

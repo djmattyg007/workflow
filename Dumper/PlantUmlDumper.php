@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\Dumper;
+namespace MattyG\StateMachine\Dumper;
 
 use InvalidArgumentException;
-use Symfony\Component\Workflow\Definition;
-use Symfony\Component\Workflow\Metadata\MetadataStoreInterface;
-use Symfony\Component\Workflow\Transition;
+use MattyG\StateMachine\Definition;
+use MattyG\StateMachine\Metadata\MetadataStoreInterface;
+use MattyG\StateMachine\Transition;
 
 /**
  * PlantUmlDumper dumps a workflow as a PlantUML file.

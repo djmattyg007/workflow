@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow;
+namespace MattyG\StateMachine;
 
-use Symfony\Component\Workflow\Exception\InvalidArgumentException;
-use Symfony\Component\Workflow\SupportStrategy\WorkflowSupportStrategyInterface;
+use MattyG\StateMachine\Exception\InvalidArgumentException;
+use MattyG\StateMachine\SupportStrategy\WorkflowSupportStrategyInterface;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>

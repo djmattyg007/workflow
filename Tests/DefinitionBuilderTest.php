@@ -1,11 +1,11 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests;
+namespace MattyG\StateMachine\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Workflow\DefinitionBuilder;
-use Symfony\Component\Workflow\Metadata\InMemoryMetadataStore;
-use Symfony\Component\Workflow\Transition;
+use MattyG\StateMachine\DefinitionBuilder;
+use MattyG\StateMachine\Metadata\InMemoryMetadataStore;
+use MattyG\StateMachine\Transition;
 
 class DefinitionBuilderTest extends TestCase
 {

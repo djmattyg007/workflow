@@ -9,21 +9,21 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow;
+namespace MattyG\StateMachine;
 
-use Symfony\Component\Workflow\Event\AnnounceEvent;
-use Symfony\Component\Workflow\Event\CompletedEvent;
-use Symfony\Component\Workflow\Event\EnteredEvent;
-use Symfony\Component\Workflow\Event\EnterEvent;
-use Symfony\Component\Workflow\Event\GuardEvent;
-use Symfony\Component\Workflow\Event\LeaveEvent;
-use Symfony\Component\Workflow\Event\TransitionEvent;
-use Symfony\Component\Workflow\Exception\LogicException;
-use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
-use Symfony\Component\Workflow\Exception\UndefinedTransitionException;
-use Symfony\Component\Workflow\Metadata\MetadataStoreInterface;
-use Symfony\Component\Workflow\StateAccessor\MethodStateAccessor;
-use Symfony\Component\Workflow\StateAccessor\StateAccessorInterface;
+use MattyG\StateMachine\Event\AnnounceEvent;
+use MattyG\StateMachine\Event\CompletedEvent;
+use MattyG\StateMachine\Event\EnteredEvent;
+use MattyG\StateMachine\Event\EnterEvent;
+use MattyG\StateMachine\Event\GuardEvent;
+use MattyG\StateMachine\Event\LeaveEvent;
+use MattyG\StateMachine\Event\TransitionEvent;
+use MattyG\StateMachine\Exception\LogicException;
+use MattyG\StateMachine\Exception\NotEnabledTransitionException;
+use MattyG\StateMachine\Exception\UndefinedTransitionException;
+use MattyG\StateMachine\Metadata\MetadataStoreInterface;
+use MattyG\StateMachine\StateAccessor\MethodStateAccessor;
+use MattyG\StateMachine\StateAccessor\StateAccessorInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**

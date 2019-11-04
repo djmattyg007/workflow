@@ -1,9 +1,9 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests;
+namespace MattyG\StateMachine\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Workflow\Transition;
+use MattyG\StateMachine\Transition;
 
 class TransitionTest extends TestCase
 {

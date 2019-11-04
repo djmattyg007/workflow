@@ -1,10 +1,10 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests\Dumper;
+namespace MattyG\StateMachine\Tests\Dumper;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Workflow\Dumper\StateMachineGraphvizDumper;
-use Symfony\Component\Workflow\Tests\WorkflowBuilderTrait;
+use MattyG\StateMachine\Dumper\StateMachineGraphvizDumper;
+use MattyG\StateMachine\Tests\WorkflowBuilderTrait;
 
 class StateMachineGraphvizDumperTest extends TestCase
 {

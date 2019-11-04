@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests;
+namespace MattyG\StateMachine\Tests;
 
 final class Subject
 {

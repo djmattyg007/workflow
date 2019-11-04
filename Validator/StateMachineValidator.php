@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\Validator;
+namespace MattyG\StateMachine\Validator;
 
-use Symfony\Component\Workflow\Definition;
-use Symfony\Component\Workflow\Exception\InvalidDefinitionException;
+use MattyG\StateMachine\Definition;
+use MattyG\StateMachine\Exception\InvalidDefinitionException;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\Dumper;
+namespace MattyG\StateMachine\Dumper;
 
-use Symfony\Component\Workflow\Definition;
+use MattyG\StateMachine\Definition;
 
 /**
  * GraphvizDumper dumps a workflow as a graphviz file.

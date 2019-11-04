@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\Exception;
+namespace MattyG\StateMachine\Exception;
 
 /**
  * Thrown by GuardListener when there is no token set, but guards are placed on a transition.

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\Exception;
+namespace MattyG\StateMachine\Exception;
 
-use Symfony\Component\Workflow\WorkflowInterface;
+use MattyG\StateMachine\WorkflowInterface;
 
 /**
  * @author Andrew Tch <andrew.tchircoff@gmail.com>

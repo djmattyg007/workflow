@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\EventListener;
+namespace MattyG\StateMachine\EventListener;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Workflow\Event\Event;
+use MattyG\StateMachine\Event\Event;
 
 /**
  * @author Grégoire Pineau <lyrixx@lyrixx.info>

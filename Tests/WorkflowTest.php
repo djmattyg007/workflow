@@ -1,19 +1,21 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests;
+namespace MattyG\StateMachine\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\Workflow\Definition;
-use Symfony\Component\Workflow\Event\Event;
-use Symfony\Component\Workflow\Event\GuardEvent;
-use Symfony\Component\Workflow\Event\TransitionEvent;
-use Symfony\Component\Workflow\Exception\NotEnabledTransitionException;
-use Symfony\Component\Workflow\StateAccessor\MethodStateAccessor;
-use Symfony\Component\Workflow\StateAccessor\StateAccessorInterface;
-use Symfony\Component\Workflow\Transition;
-use Symfony\Component\Workflow\TransitionBlocker;
-use Symfony\Component\Workflow\Workflow;
+use MattyG\StateMachine\Definition;
+use MattyG\StateMachine\Event\Event;
+use MattyG\StateMachine\Event\GuardEvent;
+use MattyG\StateMachine\Event\TransitionEvent;
+use MattyG\StateMachine\Exception\LogicException;
+use MattyG\StateMachine\Exception\NotEnabledTransitionException;
+use MattyG\StateMachine\Exception\UndefinedTransitionException;
+use MattyG\StateMachine\StateAccessor\MethodStateAccessor;
+use MattyG\StateMachine\StateAccessor\StateAccessorInterface;
+use MattyG\StateMachine\Transition;
+use MattyG\StateMachine\TransitionBlocker;
+use MattyG\StateMachine\Workflow;
 
 class WorkflowTest extends TestCase
 {
@@ -21,7 +23,7 @@ class WorkflowTest extends TestCase
 
     public function testGetStateWithImpossiblePlace()
     {
-        $this->expectException('Symfony\Component\Workflow\Exception\LogicException');
+        $this->expectException(LogicException::class);
         $this->expectExceptionMessage('State "nope" is not valid for workflow "unnamed".');
         $subject = new Subject('nope');
         $workflow = new Workflow(new Definition([], []));
@@ -137,7 +139,7 @@ class WorkflowTest extends TestCase
 
     public function testBuildTransitionBlockerListReturnsUndefinedTransition()
     {
-        $this->expectException('Symfony\Component\Workflow\Exception\UndefinedTransitionException');
+        $this->expectException(UndefinedTransitionException::class);
         $this->expectExceptionMessage('Transition "404 Not Found" is not defined for workflow "unnamed".');
         $definition = $this->createSimpleWorkflowDefinition();
         $subject = new Subject('a');
@@ -220,7 +222,7 @@ class WorkflowTest extends TestCase
 
     public function testApplyWithNotExisingTransition()
     {
-        $this->expectException('Symfony\Component\Workflow\Exception\UndefinedTransitionException');
+        $this->expectException(UndefinedTransitionException::class);
         $this->expectExceptionMessage('Transition "404 Not Found" is not defined for workflow "unnamed".');
         $definition = $this->createComplexWorkflowDefinition();
         $subject = new Subject('a');

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\Dumper;
+namespace MattyG\StateMachine\Dumper;
 
-use Symfony\Component\Workflow\Definition;
+use MattyG\StateMachine\Definition;
 
 /**
  * DumperInterface is the interface implemented by workflow dumper classes.

@@ -1,12 +1,12 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests;
+namespace MattyG\StateMachine\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\Workflow\Event\GuardEvent;
-use Symfony\Component\Workflow\StateMachine;
-use Symfony\Component\Workflow\TransitionBlocker;
+use MattyG\StateMachine\Event\GuardEvent;
+use MattyG\StateMachine\StateMachine;
+use MattyG\StateMachine\TransitionBlocker;
 
 class StateMachineTest extends TestCase
 {

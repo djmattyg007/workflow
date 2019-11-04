@@ -1,10 +1,10 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests;
+namespace MattyG\StateMachine\Tests;
 
-use Symfony\Component\Workflow\Definition;
-use Symfony\Component\Workflow\Metadata\InMemoryMetadataStore;
-use Symfony\Component\Workflow\Transition;
+use MattyG\StateMachine\Definition;
+use MattyG\StateMachine\Metadata\InMemoryMetadataStore;
+use MattyG\StateMachine\Transition;
 
 trait WorkflowBuilderTrait
 {

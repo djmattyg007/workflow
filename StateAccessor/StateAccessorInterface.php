@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\StateAccessor;
+namespace MattyG\StateMachine\StateAccessor;
 
 interface StateAccessorInterface
 {

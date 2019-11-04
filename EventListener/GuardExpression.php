@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\EventListener;
+namespace MattyG\StateMachine\EventListener;
 
-use Symfony\Component\Workflow\Transition;
+use MattyG\StateMachine\Transition;
 
 class GuardExpression
 {

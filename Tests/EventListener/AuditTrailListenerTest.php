@@ -1,14 +1,14 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests\EventListener;
+namespace MattyG\StateMachine\Tests\EventListener;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\AbstractLogger;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\Workflow\EventListener\AuditTrailListener;
-use Symfony\Component\Workflow\Tests\Subject;
-use Symfony\Component\Workflow\Tests\WorkflowBuilderTrait;
-use Symfony\Component\Workflow\Workflow;
+use MattyG\StateMachine\EventListener\AuditTrailListener;
+use MattyG\StateMachine\Tests\Subject;
+use MattyG\StateMachine\Tests\WorkflowBuilderTrait;
+use MattyG\StateMachine\Workflow;
 
 class AuditTrailListenerTest extends TestCase
 {
@@ -30,9 +30,9 @@ class AuditTrailListenerTest extends TestCase
         $workflow->apply($object, 't1');
 
         $expected = [
-            'Leaving "a" for subject of class "Symfony\Component\Workflow\Tests\Subject" in workflow "unnamed".',
-            'Transition "t1" for subject of class "Symfony\Component\Workflow\Tests\Subject" in workflow "unnamed".',
-            'Entering "b" for subject of class "Symfony\Component\Workflow\Tests\Subject" in workflow "unnamed".',
+            'Leaving "a" for subject of class "MattyG\StateMachine\Tests\Subject" in workflow "unnamed".',
+            'Transition "t1" for subject of class "MattyG\StateMachine\Tests\Subject" in workflow "unnamed".',
+            'Entering "b" for subject of class "MattyG\StateMachine\Tests\Subject" in workflow "unnamed".',
         ];
 
         $this->assertSame($expected, $logger->logs);

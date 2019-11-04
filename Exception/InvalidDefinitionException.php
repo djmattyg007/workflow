@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\Exception;
+namespace MattyG\StateMachine\Exception;
 
 /**
  * Thrown by the DefinitionValidatorInterface when the definition is invalid.

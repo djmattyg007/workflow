@@ -1,17 +1,18 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests\Validator;
+namespace MattyG\StateMachine\Tests\Validator;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Workflow\Definition;
-use Symfony\Component\Workflow\Transition;
-use Symfony\Component\Workflow\Validator\StateMachineValidator;
+use MattyG\StateMachine\Definition;
+use MattyG\StateMachine\Exception\InvalidDefinitionException;
+use MattyG\StateMachine\Transition;
+use MattyG\StateMachine\Validator\StateMachineValidator;
 
 class StateMachineValidatorTest extends TestCase
 {
     public function testWithMultipleTransitionWithSameNameShareInput()
     {
-        $this->expectException('Symfony\Component\Workflow\Exception\InvalidDefinitionException');
+        $this->expectException(InvalidDefinitionException::class);
         $this->expectExceptionMessage('A transition from a place/state must have an unique name.');
         $places = ['a', 'b', 'c'];
         $transitions[] = new Transition('t1', 'a', 'b');

@@ -1,9 +1,9 @@
 {
-    "name": "symfony/workflow",
+    "name": "djmattyg007/workflow",
     "type": "library",
-    "description": "Symfony Workflow Component",
-    "keywords": ["workflow", "petrinet", "place", "transition", "statemachine", "state"],
-    "homepage": "https://symfony.com",
+    "description": "Matty G's State Machine",
+    "keywords": ["workflow", "petrinet", "place", "transition", "state machine", "statemachine", "state"],
+    "homepage": "https://github.com/djmattyg007/workflow",
     "license": "MIT",
     "authors": [
         {
@@ -17,6 +17,10 @@
         {
             "name": "Symfony Community",
             "homepage": "https://symfony.com/contributors"
+        },
+        {
+            "name": "Matthew Gamble",
+            "homepage": "https://github.com/djmattyg007"
         }
     ],
     "require": {
@@ -34,6 +38,6 @@
         "symfony/event-dispatcher": "<4.3"
     },
     "autoload": {
-        "psr-4": { "Symfony\\Component\\Workflow\\": "" }
+        "psr-4": { "MattyG\\StateMachine\\": "" }
     }
 }

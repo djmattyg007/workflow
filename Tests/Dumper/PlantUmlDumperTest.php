@@ -8,11 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\Tests\Dumper;
+namespace MattyG\StateMachine\Tests\Dumper;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Workflow\Dumper\PlantUmlDumper;
-use Symfony\Component\Workflow\Tests\WorkflowBuilderTrait;
+use MattyG\StateMachine\Dumper\PlantUmlDumper;
+use MattyG\StateMachine\Tests\WorkflowBuilderTrait;
 
 class PlantUmlDumperTest extends TestCase
 {

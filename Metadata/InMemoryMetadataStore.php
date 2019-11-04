@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\Metadata;
+namespace MattyG\StateMachine\Metadata;
 
-use Symfony\Component\Workflow\Transition;
+use MattyG\StateMachine\Transition;
 
 /**
  * @author Grégoire Pineau <lyrixx@lyrixx.info>

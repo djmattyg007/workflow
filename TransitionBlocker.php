@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow;
+namespace MattyG\StateMachine;
 
 /**
  * A reason why a transition cannot be performed for a subject.

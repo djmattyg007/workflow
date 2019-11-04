@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow;
+namespace MattyG\StateMachine;
 
 /**
  * To learn more about how workflow events work, check the documentation
@@ -18,37 +18,37 @@ namespace Symfony\Component\Workflow;
 final class WorkflowEvents
 {
     /**
-     * @Event("Symfony\Component\Workflow\Event\GuardEvent")
+     * @Event("MattyG\StateMachine\Event\GuardEvent")
      */
     const GUARD = 'workflow.guard';
 
     /**
-     * @Event("Symfony\Component\Workflow\Event\AnnounceEvent")
+     * @Event("MattyG\StateMachine\Event\AnnounceEvent")
      */
     const ANNOUNCE = 'workflow.announce';
 
     /**
-     * @Event("Symfony\Component\Workflow\Event\CompletedEvent")
+     * @Event("MattyG\StateMachine\Event\CompletedEvent")
      */
     const COMPLETED = 'workflow.completed';
 
     /**
-     * @Event("Symfony\Component\Workflow\Event\EnterEvent")
+     * @Event("MattyG\StateMachine\Event\EnterEvent")
      */
     const ENTER = 'workflow.enter';
 
     /**
-     * @Event("Symfony\Component\Workflow\Event\EnteredEvent")
+     * @Event("MattyG\StateMachine\Event\EnteredEvent")
      */
     const ENTERED = 'workflow.entered';
 
     /**
-     * @Event("Symfony\Component\Workflow\Event\LeaveEvent")
+     * @Event("MattyG\StateMachine\Event\LeaveEvent")
      */
     const LEAVE = 'workflow.leave';
 
     /**
-     * @Event("Symfony\Component\Workflow\Event\TransitionEvent")
+     * @Event("MattyG\StateMachine\Event\TransitionEvent")
      */
     const TRANSITION = 'workflow.transition';
 

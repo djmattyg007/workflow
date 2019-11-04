@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow;
+namespace MattyG\StateMachine;
 
-use Symfony\Component\Workflow\MarkingStore\MarkingStoreInterface;
-use Symfony\Component\Workflow\MarkingStore\MethodMarkingStore;
+use MattyG\StateMachine\MarkingStore\MarkingStoreInterface;
+use MattyG\StateMachine\MarkingStore\MethodMarkingStore;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**

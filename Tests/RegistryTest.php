@@ -1,13 +1,14 @@
 <?php
 
-namespace Symfony\Component\Workflow\Tests;
+namespace MattyG\StateMachine\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Workflow\Definition;
-use Symfony\Component\Workflow\Registry;
-use Symfony\Component\Workflow\StateAccessor\StateAccessorInterface;
-use Symfony\Component\Workflow\SupportStrategy\WorkflowSupportStrategyInterface;
-use Symfony\Component\Workflow\Workflow;
+use MattyG\StateMachine\Definition;
+use MattyG\StateMachine\Exception\InvalidArgumentException;
+use MattyG\StateMachine\Registry;
+use MattyG\StateMachine\StateAccessor\StateAccessorInterface;
+use MattyG\StateMachine\SupportStrategy\WorkflowSupportStrategyInterface;
+use MattyG\StateMachine\Workflow;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class RegistryTest extends TestCase
@@ -69,8 +70,8 @@ class RegistryTest extends TestCase
 
     public function testGetWithMultipleMatch()
     {
-        $this->expectException('Symfony\Component\Workflow\Exception\InvalidArgumentException');
-        $this->expectExceptionMessage('Too many workflows (workflow2, workflow3) match this subject (Symfony\Component\Workflow\Tests\Subject2); set a different name on each and use the second (name) argument of this method.');
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Too many workflows (workflow2, workflow3) match this subject (MattyG\StateMachine\Tests\Subject2); set a different name on each and use the second (name) argument of this method.');
         $w1 = $this->registry->get(new Subject2());
         $this->assertInstanceOf(Workflow::class, $w1);
         $this->assertSame('workflow1', $w1->getName());
@@ -78,7 +79,7 @@ class RegistryTest extends TestCase
 
     public function testGetWithNoMatch()
     {
-        $this->expectException('Symfony\Component\Workflow\Exception\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unable to find a workflow for class "stdClass".');
         $w1 = $this->registry->get(new \stdClass());
         $this->assertInstanceOf(Workflow::class, $w1);

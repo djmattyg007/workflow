@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow;
+namespace MattyG\StateMachine;
 
-use Symfony\Component\Workflow\Metadata\MetadataStoreInterface;
+use MattyG\StateMachine\Metadata\MetadataStoreInterface;
 
 /**
  * Builds a definition.

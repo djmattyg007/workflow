@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\EventListener;
+namespace MattyG\StateMachine\EventListener;
 
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Workflow\Event\GuardEvent;
-use Symfony\Component\Workflow\Exception\InvalidTokenConfigurationException;
-use Symfony\Component\Workflow\TransitionBlocker;
+use MattyG\StateMachine\Event\GuardEvent;
+use MattyG\StateMachine\Exception\InvalidTokenConfigurationException;
+use MattyG\StateMachine\TransitionBlocker;
 
 /**
  * @author Grégoire Pineau <lyrixx@lyrixx.info>

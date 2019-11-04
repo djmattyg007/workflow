@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow;
+namespace MattyG\StateMachine;
 
-use Symfony\Component\Workflow\Exception\LogicException;
-use Symfony\Component\Workflow\Metadata\MetadataStoreInterface;
-use Symfony\Component\Workflow\StateAccessor\StateAccessorInterface;
+use MattyG\StateMachine\Exception\LogicException;
+use MattyG\StateMachine\Metadata\MetadataStoreInterface;
+use MattyG\StateMachine\StateAccessor\StateAccessorInterface;
 
 /**
  * @author Amrouche Hamza <hamza.simperfit@gmail.com>

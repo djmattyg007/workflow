@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\Exception;
+namespace MattyG\StateMachine\Exception;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>

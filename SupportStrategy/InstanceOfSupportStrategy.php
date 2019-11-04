@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\SupportStrategy;
+namespace MattyG\StateMachine\SupportStrategy;
 
-use Symfony\Component\Workflow\WorkflowInterface;
+use MattyG\StateMachine\WorkflowInterface;
 
 /**
  * @author Andreas Kleemann <akleemann@inviqa.com>

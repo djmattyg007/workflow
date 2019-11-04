@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Workflow\Event;
+namespace MattyG\StateMachine\Event;
 
-use Symfony\Component\Workflow\Marking;
-use Symfony\Component\Workflow\Transition;
-use Symfony\Component\Workflow\TransitionBlocker;
-use Symfony\Component\Workflow\TransitionBlockerList;
-use Symfony\Component\Workflow\WorkflowInterface;
+use MattyG\StateMachine\Marking;
+use MattyG\StateMachine\Transition;
+use MattyG\StateMachine\TransitionBlocker;
+use MattyG\StateMachine\TransitionBlockerList;
+use MattyG\StateMachine\WorkflowInterface;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>

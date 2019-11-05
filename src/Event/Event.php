@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\Event;
 
-use MattyG\StateMachine\Transition;
+use MattyG\StateMachine\TransitionInterface;
 use MattyG\StateMachine\WorkflowInterface;
 use Symfony\Contracts\EventDispatcher\Event as BaseEvent;
 
@@ -30,7 +30,7 @@ class Event extends BaseEvent
     private $subject;
 
     /**
-     * @var Transition
+     * @var TransitionInterface
      */
     private $transition;
 
@@ -41,10 +41,10 @@ class Event extends BaseEvent
 
     /**
      * @param object $subject
-     * @param Transition $transition
+     * @param TransitionInterface $transition
      * @param WorkflowInterface $workflow
      */
-    public function __construct(object $subject, Transition $transition, WorkflowInterface $workflow)
+    public function __construct(object $subject, TransitionInterface $transition, WorkflowInterface $workflow)
     {
         $this->subject = $subject;
         $this->transition = $transition;
@@ -60,9 +60,9 @@ class Event extends BaseEvent
     }
 
     /**
-     * @return Transition
+     * @return TransitionInterface
      */
-    public function getTransition(): Transition
+    public function getTransition(): TransitionInterface
     {
         return $this->transition;
     }

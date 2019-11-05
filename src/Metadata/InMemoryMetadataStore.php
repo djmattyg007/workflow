@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\Metadata;
 
-use MattyG\StateMachine\Transition;
+use MattyG\StateMachine\TransitionInterface;
 
 /**
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
@@ -44,7 +44,7 @@ final class InMemoryMetadataStore implements MetadataStoreInterface
         return $this->placesMetadata[$place] ?? [];
     }
 
-    public function getTransitionMetadata(Transition $transition): array
+    public function getTransitionMetadata(TransitionInterface $transition): array
     {
         return $this->transitionsMetadata[$transition] ?? [];
     }

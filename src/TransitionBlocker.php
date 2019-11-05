@@ -20,6 +20,7 @@ namespace MattyG\StateMachine;
 final class TransitionBlocker
 {
     const BLOCKED_BY_STATE = '29beefc4-6b3e-4726-0d17-f38bd6d16e34';
+    const BLOCKED_BY_AVAILIBILITY_GUARD = '1cdf608a-32df-40cb-b167-c555cee491ad';
     const BLOCKED_BY_EXPRESSION_GUARD_LISTENER = '326a1e9c-0c12-11e8-ba89-0ed5f89f718b';
     const UNKNOWN = 'e8b5bbb9-5913-4b98-bfa6-65dbd228a82a';
 
@@ -52,6 +53,11 @@ final class TransitionBlocker
         return new static('The state does not enable the transition.', self::BLOCKED_BY_STATE, [
             'state' => $state,
         ]);
+    }
+
+    public static function createBlockedByAvailabilityGuard(): self
+    {
+        return new static('A transition availability guard blocks the transition.', self::BLOCKED_BY_AVAILIBILITY_GUARD);
     }
 
     /**

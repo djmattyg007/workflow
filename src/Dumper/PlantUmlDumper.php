@@ -17,7 +17,7 @@ namespace MattyG\StateMachine\Dumper;
 use InvalidArgumentException;
 use MattyG\StateMachine\Definition;
 use MattyG\StateMachine\Metadata\MetadataStoreInterface;
-use MattyG\StateMachine\Transition;
+use MattyG\StateMachine\TransitionInterface;
 
 /**
  * PlantUmlDumper dumps a workflow as a PlantUML file.
@@ -216,7 +216,7 @@ class PlantUmlDumper implements DumperInterface
         return $output;
     }
 
-    private function getTransitionEscapedWithStyle(MetadataStoreInterface $workflowMetadata, Transition $transition, string $to): string
+    private function getTransitionEscapedWithStyle(MetadataStoreInterface $workflowMetadata, TransitionInterface $transition, string $to): string
     {
         $to = $workflowMetadata->getMetadata('label', $transition) ?? $to;
 

@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace MattyG\StateMachine\Metadata;
 
 use MattyG\StateMachine\Exception\InvalidArgumentException;
-use MattyG\StateMachine\Transition;
+use MattyG\StateMachine\TransitionInterface;
 
 /**
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
@@ -37,7 +37,7 @@ trait GetMetadataTrait
             return $metadataBag[$key] ?? null;
         }
 
-        if ($subject instanceof Transition) {
+        if ($subject instanceof TransitionInterface) {
             $metadataBag = $this->getTransitionMetadata($subject);
             if (!$metadataBag) {
                 return null;

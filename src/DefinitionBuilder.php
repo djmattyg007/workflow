@@ -31,7 +31,7 @@ class DefinitionBuilder
     private $places = [];
 
     /**
-     * @var Transition[]
+     * @var TransitionInterface[]
      */
     private $transitions = [];
 
@@ -46,8 +46,8 @@ class DefinitionBuilder
     private $metadataStore = null;
 
     /**
-     * @param string[]     $places
-     * @param Transition[] $transitions
+     * @param string[] $places
+     * @param TransitionInterface[] $transitions
      */
     public function __construct(array $places = [], array $transitions = [])
     {
@@ -94,15 +94,15 @@ class DefinitionBuilder
     }
 
     /**
-     * @param Transition $transition
+     * @param TransitionInterface $transition
      */
-    public function addTransition(Transition $transition): void
+    public function addTransition(TransitionInterface $transition): void
     {
         $this->transitions[] = $transition;
     }
 
     /**
-     * @param Transition[] $transitions
+     * @param TransitionInterface[] $transitions
      */
     public function addTransitions(array $transitions): void
     {

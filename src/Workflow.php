@@ -247,10 +247,10 @@ class Workflow implements WorkflowInterface
     /**
      * @param object $subject
      * @param string $state
-     * @param Transition $transition
+     * @param TransitionInterface $transition
      * @return TransitionBlockerList
      */
-    private function buildTransitionBlockerListForTransition(object $subject, string $state, Transition $transition): TransitionBlockerList
+    private function buildTransitionBlockerListForTransition(object $subject, string $state, TransitionInterface $transition): TransitionBlockerList
     {
         $from = $transition->getFrom();
         if ($from !== $state) {
@@ -259,8 +259,14 @@ class Workflow implements WorkflowInterface
             ]);
         }
 
-        $event = $this->guardTransition($subject, $transition);
+        $isAvailable = $transition->checkIsAvailable($subject, $this);
+        if ($isAvailable === false) {
+            return new TransitionBlockerList([
+                TransitionBlocker::createBlockedByAvailabilityGuard(),
+            ]);
+        }
 
+        $event = $this->guardTransition($subject, $transition);
         if ($event !== null && $event->isBlocked()) {
             return $event->getTransitionBlockerList();
         }
@@ -270,10 +276,10 @@ class Workflow implements WorkflowInterface
 
     /**
      * @param object $subject
-     * @param Transition $transition
+     * @param TransitionInterface $transition
      * @return GuardEvent|null
      */
-    private function guardTransition(object $subject, Transition $transition): ?GuardEvent
+    private function guardTransition(object $subject, TransitionInterface $transition): ?GuardEvent
     {
         if (null === $this->dispatcher) {
             return null;
@@ -290,10 +296,13 @@ class Workflow implements WorkflowInterface
 
     /**
      * @param object $subject
-     * @param Transition $transition
+     * @param TransitionInterface $transition
+     * @throws LogicException
      */
-    private function leave(object $subject, Transition $transition): void
+    private function leave(object $subject, TransitionInterface $transition): void
     {
+        $transition->checkCanLeave($subject, $this);
+
         if (null === $this->dispatcher) {
             return;
         }
@@ -307,11 +316,12 @@ class Workflow implements WorkflowInterface
 
     /**
      * @param object $subject
-     * @param Transition $transition
+     * @param TransitionInterface $transition
      * @param array $context
      * @return array
+     * @throws LogicException
      */
-    private function transition(object $subject, Transition $transition, array $context): array
+    private function transition(object $subject, TransitionInterface $transition, array $context): array
     {
         if (null === $this->dispatcher) {
             return $context;
@@ -328,10 +338,13 @@ class Workflow implements WorkflowInterface
 
     /**
      * @param object $subject
-     * @param Transition $transition
+     * @param TransitionInterface $transition
+     * @throws LogicException
      */
-    private function enter(object $subject, Transition $transition): void
+    private function enter(object $subject, TransitionInterface $transition): void
     {
+        $transition->checkCanEnter($subject, $this);
+
         if (null === $this->dispatcher) {
             return;
         }
@@ -345,9 +358,9 @@ class Workflow implements WorkflowInterface
 
     /**
      * @param object $subject
-     * @param Transition $transition
+     * @param TransitionInterface $transition
      */
-    private function entered(object $subject, Transition $transition): void
+    private function entered(object $subject, TransitionInterface $transition): void
     {
         if (null === $this->dispatcher) {
             return;
@@ -362,9 +375,9 @@ class Workflow implements WorkflowInterface
 
     /**
      * @param object $subject
-     * @param Transition $transition
+     * @param TransitionInterface $transition
      */
-    private function completed(object $subject, Transition $transition): void
+    private function completed(object $subject, TransitionInterface $transition): void
     {
         if (null === $this->dispatcher) {
             return;
@@ -379,9 +392,9 @@ class Workflow implements WorkflowInterface
 
     /**
      * @param object $subject
-     * @param Transition $initialTransition
+     * @param TransitionInterface $initialTransition
      */
-    private function announce(object $subject, Transition $initialTransition): void
+    private function announce(object $subject, TransitionInterface $initialTransition): void
     {
         if (null === $this->dispatcher) {
             return;

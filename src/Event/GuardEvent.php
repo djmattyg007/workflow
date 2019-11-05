@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\Event;
 
-use MattyG\StateMachine\Transition;
+use MattyG\StateMachine\TransitionInterface;
 use MattyG\StateMachine\TransitionBlocker;
 use MattyG\StateMachine\TransitionBlockerList;
 use MattyG\StateMachine\WorkflowInterface;
@@ -33,7 +33,7 @@ final class GuardEvent extends Event
     /**
      * {@inheritdoc}
      */
-    public function __construct(object $subject, Transition $transition, WorkflowInterface $workflow)
+    public function __construct(object $subject, TransitionInterface $transition, WorkflowInterface $workflow)
     {
         parent::__construct($subject, $transition, $workflow);
 

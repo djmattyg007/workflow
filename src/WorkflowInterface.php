@@ -63,7 +63,7 @@ interface WorkflowInterface
     /**
      * Returns all enabled transitions.
      *
-     * @return Transition[] All enabled transitions
+     * @return TransitionInterface[] All enabled transitions
      */
     public function getEnabledTransitions(object $subject): array;
 

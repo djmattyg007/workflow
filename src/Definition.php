@@ -32,7 +32,7 @@ final class Definition
     private $places = [];
 
     /**
-     * @var Transition[]
+     * @var TransitionInterface[]
      */
     private $transitions = [];
 
@@ -48,7 +48,7 @@ final class Definition
 
     /**
      * @param string[] $places
-     * @param Transition[] $transitions
+     * @param TransitionInterface[] $transitions
      * @param string|null $initialPlace
      * @param MetadataStoreInterface|null $metadataStore
      */
@@ -96,7 +96,7 @@ final class Definition
     }
 
     /**
-     * @return Transition[]
+     * @return TransitionInterface[]
      */
     public function getTransitions(): array
     {
@@ -140,9 +140,9 @@ final class Definition
     }
 
     /**
-     * @param Transition $transition
+     * @param TransitionInterface $transition
      */
-    private function addTransition(Transition $transition): void
+    private function addTransition(TransitionInterface $transition): void
     {
         $name = $transition->getName();
         $from = $transition->getFrom();

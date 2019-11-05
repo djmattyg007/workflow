@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine\Dumper;
 
 use MattyG\StateMachine\Definition;
@@ -32,6 +34,7 @@ class StateMachineGraphvizDumper extends GraphvizDumper
         $places = $this->findPlaces($definition, $state);
         $edges = $this->findEdges($definition);
 
+        /** @var array $options */
         $options = array_replace_recursive(self::$defaultOptions, $options);
 
         return $this->startDot($options)

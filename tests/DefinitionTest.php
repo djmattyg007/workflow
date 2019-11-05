@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine\Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -22,7 +24,7 @@ class DefinitionTest extends TestCase
     public function testAddPlaces()
     {
         $places = range('a', 'e');
-        $definition = new Definition($places, []);
+        $definition = new Definition($places, [new Transition('a_to_c', 'a', 'c')]);
 
         $this->assertCount(5, $definition->getPlaces());
 
@@ -32,7 +34,7 @@ class DefinitionTest extends TestCase
     public function testSetInitialPlace()
     {
         $places = range('a', 'e');
-        $definition = new Definition($places, [], $places[3]);
+        $definition = new Definition($places, [new Transition('a_to_d', 'a', 'd')], $places[3]);
 
         $this->assertEquals($places[3], $definition->getInitialPlace());
     }
@@ -41,7 +43,7 @@ class DefinitionTest extends TestCase
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Place "d" cannot be the initial place as it does not exist.');
-        new Definition([], [], 'd');
+        new Definition(['a', 'b'], [new Transition('a_to_b', 'a', 'b')], 'd');
     }
 
     public function testAddTransition()

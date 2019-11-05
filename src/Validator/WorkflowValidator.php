@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine\Validator;
 
 use MattyG\StateMachine\Definition;
@@ -27,7 +29,7 @@ class WorkflowValidator implements DefinitionValidatorInterface
         $places = array_fill_keys($definition->getPlaces(), []);
         foreach ($definition->getTransitions() as $transition) {
             $from = $transition->getFrom();
-            if (\in_array($transition->getName(), $places[$from])) {
+            if (\in_array($transition->getName(), $places[$from], true)) {
                 throw new InvalidDefinitionException(sprintf('All transitions for a place must have a unique name. Multiple transitions named "%s" were found for place "%s" in workflow "%s".', $transition->getName(), $from, $name));
             }
             $places[$from][] = $transition->getName();

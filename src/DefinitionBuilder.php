@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine;
 
 use MattyG\StateMachine\Metadata\MetadataStoreInterface;
@@ -62,7 +64,7 @@ class DefinitionBuilder
     }
 
     /**
-     * @param string $initialPlaces
+     * @param string $initialPlace
      */
     public function setInitialPlace(string $initialPlace): void
     {
@@ -75,7 +77,7 @@ class DefinitionBuilder
     public function addPlace(string $place): void
     {
         if ($this->initialPlace === null) {
-            $this->initialPlaces = $place;
+            $this->initialPlace = $place;
         }
 
         $this->places[$place] = $place;
@@ -92,6 +94,14 @@ class DefinitionBuilder
     }
 
     /**
+     * @param Transition $transition
+     */
+    public function addTransition(Transition $transition): void
+    {
+        $this->transitions[] = $transition;
+    }
+
+    /**
      * @param Transition[] $transitions
      */
     public function addTransitions(array $transitions): void
@@ -99,14 +109,6 @@ class DefinitionBuilder
         foreach ($transitions as $transition) {
             $this->addTransition($transition);
         }
-    }
-
-    /**
-     * @param Transition $transition
-     */
-    public function addTransition(Transition $transition): void
-    {
-        $this->transitions[] = $transition;
     }
 
     /**

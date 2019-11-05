@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine\Dumper;
 
 use InvalidArgumentException;
@@ -64,6 +66,7 @@ class PlantUmlDumper implements DumperInterface
 
     public function dump(Definition $definition, ?string $state = null, array $options = []): string
     {
+        /** @var array $options */
         $options = array_replace_recursive(self::DEFAULT_OPTIONS, $options);
 
         $workflowMetadata = $definition->getMetadataStore();
@@ -105,7 +108,7 @@ class PlantUmlDumper implements DumperInterface
                     "$transitionEscaped -${transitionColor}-> ${toEscaped}${transitionLabel}",
                 ];
                 foreach ($lines as $line) {
-                    if (!\in_array($line, $code)) {
+                    if (!\in_array($line, $code, true)) {
                         $code[] = $line;
                     }
                 }

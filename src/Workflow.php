@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine;
 
 use MattyG\StateMachine\Event\AnnounceEvent;
@@ -45,14 +47,14 @@ class Workflow implements WorkflowInterface
     private $stateAccessor;
 
     /**
-     * @var EventDispatcherInterface
+     * @var EventDispatcherInterface|null
      */
-    private $dispatcher;
+    private $dispatcher = null;
 
     /**
      * @var string
      */
-    private $name;
+    private $name = 'unnamed';
 
     /**
      * @param Definition $definition
@@ -177,17 +179,17 @@ class Workflow implements WorkflowInterface
 
         $this->leave($subject, $approvedTransition, $originalState);
 
-        $context = $this->transition($subject, $transition, $newState, $context);
+        $context = $this->transition($subject, $approvedTransition, $newState, $context);
 
         $this->enter($subject, $approvedTransition, $newState);
 
         $this->stateAccessor->setState($subject, $newState, $context);
 
-        $this->entered($subject, $transition, $newState);
+        $this->entered($subject, $approvedTransition, $newState);
 
-        $this->completed($subject, $transition, $newState);
+        $this->completed($subject, $approvedTransition, $newState);
 
-        $this->announce($subject, $transition, $newState);
+        $this->announce($subject, $approvedTransition, $newState);
 
         return $newState;
     }

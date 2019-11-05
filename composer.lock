@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb46059f69b4ae5d644e8cf693e1b490",
+    "content-hash": "53fc98e3dcf83044d501d2220826d2c2",
     "packages": [],
     "packages-dev": [
         {
@@ -157,6 +157,68 @@
                 "versions"
             ],
             "time": "2018-06-13T13:22:40+00:00"
+        },
+        {
+            "name": "localheinz/phpstan-rules",
+            "version": "0.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/localheinz/phpstan-rules.git",
+                "reference": "e05ea16b61e48436a9ebb98e432de56b2dcf2034"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/localheinz/phpstan-rules/zipball/e05ea16b61e48436a9ebb98e432de56b2dcf2034",
+                "reference": "e05ea16b61e48436a9ebb98e432de56b2dcf2034",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.2.3",
+                "php": "^7.1",
+                "phpstan/phpstan": "~0.11.15"
+            },
+            "require-dev": {
+                "infection/infection": "~0.13.6",
+                "localheinz/composer-normalize": "^1.3.1",
+                "localheinz/php-cs-fixer-config": "~1.23.0",
+                "localheinz/test-util": "~0.7.0",
+                "phpstan/phpstan-deprecation-rules": "~0.11.2",
+                "phpstan/phpstan-strict-rules": "~0.11.1",
+                "phpunit/phpunit": "^7.5.16",
+                "psr/container": "^1.0.0",
+                "zendframework/zend-servicemanager": "^2.0.0"
+            },
+            "type": "phpstan-extension",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "rules.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Localheinz\\PHPStan\\Rules\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Möller",
+                    "email": "am@localheinz.com"
+                }
+            ],
+            "description": "Provides additional rules for phpstan/phpstan.",
+            "homepage": "https://github.com/localheinz/phpstan-rules",
+            "keywords": [
+                "PHPStan",
+                "phpstan-extreme-rules",
+                "phpstan-rules"
+            ],
+            "time": "2019-10-15T09:23:25+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1274,6 +1336,57 @@
             "time": "2019-10-22T20:20:22+00:00"
         },
         {
+            "name": "phpstan/phpstan-deprecation-rules",
+            "version": "0.11.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan-deprecation-rules.git",
+                "reference": "5685fe48873efc5af1f2cc95d9c1b8ae82c728fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/5685fe48873efc5af1f2cc95d9c1b8ae82c728fe",
+                "reference": "5685fe48873efc5af1f2cc95d9c1b8ae82c728fe",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.0",
+                "php": "~7.1",
+                "phpstan/phpstan": "^0.11.8"
+            },
+            "require-dev": {
+                "consistence/coding-standard": "^3.0.1",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
+                "jakub-onderka/php-parallel-lint": "^1.0",
+                "phing/phing": "^2.16.0",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpunit/phpunit": "^7.0",
+                "slevomat/coding-standard": "^4.5.2"
+            },
+            "type": "phpstan-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.11-dev"
+                },
+                "phpstan": {
+                    "includes": [
+                        "rules.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PHPStan\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan rules for detecting usage of deprecated classes, methods, properties, constants and traits.",
+            "time": "2019-05-28T19:54:04+00:00"
+        },
+        {
             "name": "phpstan/phpstan-phpunit",
             "version": "0.11.2",
             "source": {
@@ -1329,6 +1442,57 @@
             ],
             "description": "PHPUnit extensions and rules for PHPStan",
             "time": "2019-05-17T17:50:16+00:00"
+        },
+        {
+            "name": "phpstan/phpstan-strict-rules",
+            "version": "0.11.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan-strict-rules.git",
+                "reference": "a203a7afdda073d4ea405a6d9007a5b32de3be61"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan-strict-rules/zipball/a203a7afdda073d4ea405a6d9007a5b32de3be61",
+                "reference": "a203a7afdda073d4ea405a6d9007a5b32de3be61",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.0",
+                "php": "~7.1",
+                "phpstan/phpstan": "^0.11.4"
+            },
+            "require-dev": {
+                "consistence/coding-standard": "^3.0.1",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
+                "jakub-onderka/php-parallel-lint": "^1.0",
+                "phing/phing": "^2.16.0",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpunit/phpunit": "^7.0",
+                "slevomat/coding-standard": "^4.5.2"
+            },
+            "type": "phpstan-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.11-dev"
+                },
+                "phpstan": {
+                    "includes": [
+                        "rules.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PHPStan\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Extra strict and opinionated rules for PHPStan",
+            "time": "2019-05-12T16:59:47+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine\Tests;
 
 use MattyG\StateMachine\Definition;
@@ -124,7 +126,7 @@ trait WorkflowBuilderTrait
     {
         $places = ['a', 'b', 'c', 'd'];
 
-        $transitions[] = new Transition('t1', 'a', 'b');
+        $transitions = [new Transition('t1', 'a', 'b')];
         $transitionWithMetadataDumpStyle = new Transition('t1', 'd', 'b');
         $transitions[] = $transitionWithMetadataDumpStyle;
         $transitionWithMetadataArrowColorBlue = new Transition('t2', 'b', 'c');

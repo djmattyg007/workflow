@@ -1,0 +1,8 @@
+includes:
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+
+rules:
+    - Localheinz\PHPStan\Rules\Files\DeclareStrictTypesRule
+    - PHPStan\Rules\DisallowedConstructs\DisallowedImplicitArrayCreationRule
+    - PHPStan\Rules\StrictCalls\StrictFunctionCallsRule

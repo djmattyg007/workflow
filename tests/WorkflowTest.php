@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine\Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -36,7 +38,7 @@ class WorkflowTest extends TestCase
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('State "nope" is not valid for workflow "unnamed".');
         $subject = new Subject('nope');
-        $workflow = new Workflow(new Definition([], []));
+        $workflow = new Workflow(new Definition(['a', 'b'], [new Transition('a_to_b', 'a', 'b')]));
 
         $workflow->getState($subject);
     }
@@ -366,8 +368,10 @@ class WorkflowTest extends TestCase
 
     public function testApplyDoesNotTriggerExtraGuardWithEventDispatcher()
     {
-        $transitions[] = new Transition('a-b', 'a', 'b');
-        $transitions[] = new Transition('a-c', 'a', 'c');
+        $transitions = [
+            new Transition('a-b', 'a', 'b'),
+            new Transition('a-c', 'a', 'c'),
+        ];
         $definition = new Definition(['a', 'b', 'c'], $transitions);
 
         $subject = new Subject('a');

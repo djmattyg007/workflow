@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine\Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -18,6 +20,7 @@ use MattyG\StateMachine\Exception\InvalidArgumentException;
 use MattyG\StateMachine\Registry;
 use MattyG\StateMachine\StateAccessor\StateAccessorInterface;
 use MattyG\StateMachine\SupportStrategy\WorkflowSupportStrategyInterface;
+use MattyG\StateMachine\Transition;
 use MattyG\StateMachine\Workflow;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -31,7 +34,7 @@ class RegistryTest extends TestCase
 
         $this->registry->addWorkflow(
             new Workflow(
-                new Definition([], []),
+                new Definition(['a', 'b'], [new Transition('a_to_b', 'a', 'b')]),
                 $this->getMockBuilder(StateAccessorInterface::class)->getMock(),
                 $this->getMockBuilder(EventDispatcherInterface::class)->getMock(),
                 'workflow1'
@@ -40,7 +43,7 @@ class RegistryTest extends TestCase
         );
         $this->registry->addWorkflow(
             new Workflow(
-                new Definition([], []),
+                new Definition(['m', 'n'], [new Transition('m_to_n', 'm', 'n')]),
                 $this->getMockBuilder(StateAccessorInterface::class)->getMock(),
                 $this->getMockBuilder(EventDispatcherInterface::class)->getMock(),
                 'workflow2'
@@ -49,7 +52,7 @@ class RegistryTest extends TestCase
         );
         $this->registry->addWorkflow(
             new Workflow(
-                new Definition([], []),
+                new Definition(['x', 'y'], [new Transition('x_to_y', 'x', 'y')]),
                 $this->getMockBuilder(StateAccessorInterface::class)->getMock(),
                 $this->getMockBuilder(EventDispatcherInterface::class)->getMock(),
                 'workflow3'

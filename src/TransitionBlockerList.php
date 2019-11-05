@@ -10,7 +10,12 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine;
+
+use ArrayIterator;
+use Traversable;
 
 /**
  * A list of transition blockers.
@@ -49,6 +54,11 @@ final class TransitionBlockerList implements \IteratorAggregate, \Countable
         return false;
     }
 
+    public function clear(): void
+    {
+        $this->blockers = [];
+    }
+
     public function isEmpty(): bool
     {
         return !$this->blockers;
@@ -57,11 +67,11 @@ final class TransitionBlockerList implements \IteratorAggregate, \Countable
     /**
      * {@inheritdoc}
      *
-     * @return \ArrayIterator|TransitionBlocker[]
+     * @return ArrayIterator|TransitionBlocker[]
      */
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->blockers);
+        return new ArrayIterator($this->blockers);
     }
 
     public function count(): int

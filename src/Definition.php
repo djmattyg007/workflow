@@ -10,8 +10,11 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine;
 
+use MattyG\StateMachine\Exception\InvalidArgumentException;
 use MattyG\StateMachine\Exception\LogicException;
 use MattyG\StateMachine\Metadata\InMemoryMetadataStore;
 use MattyG\StateMachine\Metadata\MetadataStoreInterface;
@@ -54,9 +57,15 @@ final class Definition
         foreach ($places as $place) {
             $this->addPlace($place);
         }
+        if (count($this->places) === 0) {
+            throw new InvalidArgumentException("Cannot have a workflow definition with no places.");
+        }
 
         foreach ($transitions as $transition) {
             $this->addTransition($transition);
+        }
+        if (count($this->transitions) === 0) {
+            throw new InvalidArgumentException("Cannot have a workflow definition with no transitions.");
         }
 
         $this->setInitialPlace($initialPlace);
@@ -69,7 +78,13 @@ final class Definition
      */
     public function getInitialPlace(): string
     {
-        return $this->initialPlace;
+        // There is guaranteed to be an initial place by the time this is called,
+        // because we enforce the fact that there must be at least one place in
+        // the workflow definition. This check takes place in the constructor.
+
+        /** @var string $initialPlace */
+        $initialPlace = $this->initialPlace;
+        return $initialPlace;
     }
 
     /**

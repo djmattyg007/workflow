@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine\Dumper;
 
 use MattyG\StateMachine\Definition;
@@ -49,6 +51,7 @@ class GraphvizDumper implements DumperInterface
         $transitions = $this->findTransitions($definition);
         $edges = $this->findEdges($definition);
 
+        /** @var array $options */
         $options = array_replace_recursive(self::$defaultOptions, $options);
 
         return $this->startDot($options)
@@ -150,7 +153,7 @@ class GraphvizDumper implements DumperInterface
         $code = '';
 
         foreach ($transitions as $i => $place) {
-            $code .= sprintf("  transition_%s [label=\"%s\",%s];\n", $this->dotize($i), $this->escape($place['name']), $this->addAttributes($place['attributes']));
+            $code .= sprintf("  transition_%s [label=\"%s\",%s];\n", $this->dotize((string) $i), $this->escape($place['name']), $this->addAttributes($place['attributes']));
         }
 
         return $code;
@@ -196,11 +199,11 @@ class GraphvizDumper implements DumperInterface
             if ('from' === $edge['direction']) {
                 $code .= sprintf("  place_%s -> transition_%s [style=\"solid\"];\n",
                     $this->dotize($edge['from']),
-                    $this->dotize($edge['transition_number'])
+                    $this->dotize((string) $edge['transition_number'])
                 );
             } else {
                 $code .= sprintf("  transition_%s -> place_%s [style=\"solid\"];\n",
-                    $this->dotize($edge['transition_number']),
+                    $this->dotize((string) $edge['transition_number']),
                     $this->dotize($edge['to'])
                 );
             }

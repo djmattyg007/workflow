@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine\Event;
 
 use MattyG\StateMachine\Marking;
@@ -34,7 +36,7 @@ class Event extends BaseEvent
     private $state;
 
     /**
-     * @var Transition|null
+     * @var Transition
      */
     private $transition;
 
@@ -46,10 +48,10 @@ class Event extends BaseEvent
     /**
      * @param object $subject
      * @param string $state
-     * @param Transition|null $transition
+     * @param Transition $transition
      * @param WorkflowInterface|null $workflow
      */
-    public function __construct(object $subject, string $state, Transition $transition = null, WorkflowInterface $workflow = null)
+    public function __construct(object $subject, string $state, Transition $transition, WorkflowInterface $workflow = null)
     {
         $this->subject = $subject;
         $this->state = $state;
@@ -74,9 +76,9 @@ class Event extends BaseEvent
     }
 
     /**
-     * @return Transition|null
+     * @return Transition
      */
-    public function getTransition(): ?Transition
+    public function getTransition(): Transition
     {
         return $this->transition;
     }
@@ -103,6 +105,10 @@ class Event extends BaseEvent
 
     public function getMetadata(string $key, object $subject)
     {
-        return $this->workflow->getMetadataStore()->getMetadata($key, $subject);
+        if ($this->workflow === null) {
+            return null;
+        } else {
+            return $this->workflow->getMetadataStore()->getMetadata($key, $subject);
+        }
     }
 }

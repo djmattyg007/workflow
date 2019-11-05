@@ -10,6 +10,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine\Tests;
 
 use PHPUnit\Framework\TestCase;
@@ -21,7 +23,7 @@ class DefinitionBuilderTest extends TestCase
 {
     public function testSetInitialPlace()
     {
-        $builder = new DefinitionBuilder(['a', 'b']);
+        $builder = new DefinitionBuilder(['a', 'b'], [new Transition('a_to_b', 'a', 'b')]);
         $builder->setInitialPlace('b');
         $definition = $builder->build();
 
@@ -46,19 +48,29 @@ class DefinitionBuilderTest extends TestCase
 
     public function testAddPlace()
     {
-        $builder = new DefinitionBuilder(['a'], []);
-        $builder->addPlace('b');
+        $builder1 = new DefinitionBuilder(['a'], []);
+        $builder1->addPlace('b');
+        $builder1->addTransition(new Transition('a_to_b', 'a', 'b'));
 
-        $definition = $builder->build();
+        $definition1 = $builder1->build();
 
-        $this->assertCount(2, $definition->getPlaces());
-        $this->assertEquals('a', $definition->getPlaces()['a']);
-        $this->assertEquals('b', $definition->getPlaces()['b']);
+        $this->assertCount(2, $definition1->getPlaces());
+        $this->assertEquals('a', $definition1->getPlaces()['a']);
+        $this->assertEquals('b', $definition1->getPlaces()['b']);
+
+        $builder2 = new DefinitionBuilder(['a'], [new Transition('a_to_b', 'a', 'b')]);
+        $builder2->addPlace('b');
+
+        $definition2 = $builder2->build();
+
+        $this->assertCount(2, $definition2->getPlaces());
+        $this->assertEquals('a', $definition2->getPlaces()['a']);
+        $this->assertEquals('b', $definition2->getPlaces()['b']);
     }
 
     public function testSetMetadataStore()
     {
-        $builder = new DefinitionBuilder(['a']);
+        $builder = new DefinitionBuilder(['a', 'b'], [new Transition('a_to_b', 'a', 'b')]);
         $metadataStore = new InMemoryMetadataStore();
         $builder->setMetadataStore($metadataStore);
         $definition = $builder->build();

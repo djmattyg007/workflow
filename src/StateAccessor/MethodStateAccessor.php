@@ -10,7 +10,11 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace MattyG\StateMachine\StateAccessor;
+
+use MattyG\StateMachine\Exception\LogicException;
 
 final class MethodStateAccessor implements StateAccessorInterface
 {
@@ -52,7 +56,7 @@ final class MethodStateAccessor implements StateAccessorInterface
     public function getState(object $subject): string
     {
         if (!method_exists($subject, $this->getterName)) {
-            throw new LogicException(sprintf('The method "%s::%s()" does not exist.', \get_class($subject), $Method));
+            throw new LogicException(sprintf('The method "%s::%s()" does not exist.', \get_class($subject), $this->getterName));
         }
 
         return $subject->{$this->getterName}();
@@ -66,7 +70,7 @@ final class MethodStateAccessor implements StateAccessorInterface
     public function setState(object $subject, string $state, array $context = []): void
     {
         if (!method_exists($subject, $this->setterName)) {
-            throw new LogicException(sprintf('The method "%s::%s()" does not exist.', \get_class($subject), $method));
+            throw new LogicException(sprintf('The method "%s::%s()" does not exist.', \get_class($subject), $this->setterName));
         }
 
         $subject->{$this->setterName}($state, $context);

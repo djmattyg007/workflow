@@ -43,8 +43,8 @@ final class MethodStateAccessor implements StateAccessorInterface
      */
     public static function fromProperty(string $property): MethodStateAccessor
     {
-        $getterName = 'get'.ucfirst($property);
-        $setterName = 'set'.ucfirst($property);
+        $getterName = 'get' . ucfirst($property);
+        $setterName = 'set' . ucfirst($property);
         return new self($getterName, $setterName);
     }
 

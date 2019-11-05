@@ -62,7 +62,9 @@ class GraphvizDumper implements DumperInterface
     }
 
     /**
-     * @internal
+     * @param Definition $definition
+     * @param string|null $state
+     * @return array<string, array{attributes: array}>
      */
     protected function findPlaces(Definition $definition, ?string $state = null): array
     {
@@ -97,7 +99,7 @@ class GraphvizDumper implements DumperInterface
     }
 
     /**
-     * @internal
+     * @return array<int, array{attributes: array, name: string}>
      */
     protected function findTransitions(Definition $definition): array
     {
@@ -125,7 +127,8 @@ class GraphvizDumper implements DumperInterface
     }
 
     /**
-     * @internal
+     * @param array<string, array{attributes: array}> $places
+     * @return string
      */
     protected function addPlaces(array $places): string
     {
@@ -146,7 +149,8 @@ class GraphvizDumper implements DumperInterface
     }
 
     /**
-     * @internal
+     * @param array<int, array{attributes: array, name: string}> $transitions
+     * @return string
      */
     protected function addTransitions(array $transitions): string
     {
@@ -160,7 +164,8 @@ class GraphvizDumper implements DumperInterface
     }
 
     /**
-     * @internal
+     * @param Definition $definition
+     * @return array<int, array{from: string, to: string, direction: string, transition_number: int}>
      */
     protected function findEdges(Definition $definition): array
     {
@@ -189,7 +194,8 @@ class GraphvizDumper implements DumperInterface
     }
 
     /**
-     * @internal
+     * @param array<int, array{from: string, to: string, direction: string, transition_number: int}> $edges
+     * @return string
      */
     protected function addEdges(array $edges): string
     {

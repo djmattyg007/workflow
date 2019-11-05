@@ -45,7 +45,8 @@ class StateMachineGraphvizDumper extends GraphvizDumper
     }
 
     /**
-     * @internal
+     * @param Definition $definition
+     * @return array<string, array<int, array{name: string, to: string, attributes: array}>>
      */
     protected function findEdges(Definition $definition): array
     {
@@ -79,7 +80,8 @@ class StateMachineGraphvizDumper extends GraphvizDumper
     }
 
     /**
-     * @internal
+     * @param array<string, array<int, array{name: string, to: string, attributes: array}>> $edges
+     * @return string
      */
     protected function addEdges(array $edges): string
     {

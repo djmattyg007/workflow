@@ -22,6 +22,9 @@ use MattyG\StateMachine\WorkflowInterface;
  */
 final class InstanceOfSupportStrategy implements WorkflowSupportStrategyInterface
 {
+    /**
+     * @var string
+     */
     private $className;
 
     public function __construct(string $className)

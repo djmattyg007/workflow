@@ -14,11 +14,13 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\Exception;
 
+use RuntimeException as BaseRuntimeException;
+
 /**
  * Base RuntimeException for the Workflow component.
  *
  * @author Alain Flaus <alain.flaus@gmail.com>
  */
-class RuntimeException extends \RuntimeException implements ExceptionInterface
+class RuntimeException extends BaseRuntimeException implements ExceptionInterface
 {
 }

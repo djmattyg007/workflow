@@ -23,6 +23,11 @@ use MattyG\StateMachine\WorkflowInterface;
  */
 class UndefinedTransitionException extends TransitionException
 {
+    /**
+     * @param object $subject
+     * @param string $transitionName
+     * @param WorkflowInterface $workflow
+     */
     public function __construct(object $subject, string $transitionName, WorkflowInterface $workflow)
     {
         parent::__construct($subject, $transitionName, $workflow, sprintf('Transition "%s" is not defined for workflow "%s".', $transitionName, $workflow->getName()));

@@ -15,6 +15,8 @@ declare(strict_types=1);
 namespace MattyG\StateMachine;
 
 use ArrayIterator;
+use Countable;
+use IteratorAggregate;
 use Traversable;
 
 /**
@@ -22,9 +24,12 @@ use Traversable;
  *
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
-final class TransitionBlockerList implements \IteratorAggregate, \Countable
+final class TransitionBlockerList implements IteratorAggregate, Countable
 {
-    private $blockers;
+    /**
+     * @var TransitionBlocker[]
+     */
+    private $blockers = [];
 
     /**
      * @param TransitionBlocker[] $blockers
@@ -59,9 +64,12 @@ final class TransitionBlockerList implements \IteratorAggregate, \Countable
         $this->blockers = [];
     }
 
+    /**
+     * @return bool
+     */
     public function isEmpty(): bool
     {
-        return !$this->blockers;
+        return count($this->blockers) === 0;
     }
 
     /**

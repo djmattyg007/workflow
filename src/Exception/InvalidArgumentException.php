@@ -14,10 +14,12 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\Exception;
 
+use InvalidArgumentException as BaseInvalidArgumentException;
+
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
-class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
+class InvalidArgumentException extends BaseInvalidArgumentException implements ExceptionInterface
 {
 }

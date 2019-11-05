@@ -14,10 +14,12 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\Exception;
 
+use LogicException as BaseLogicException;
+
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
-class LogicException extends \LogicException implements ExceptionInterface
+class LogicException extends BaseLogicException implements ExceptionInterface
 {
 }

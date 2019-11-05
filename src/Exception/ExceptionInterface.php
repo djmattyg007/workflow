@@ -14,10 +14,12 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\Exception;
 
+use Throwable;
+
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
-interface ExceptionInterface extends \Throwable
+interface ExceptionInterface extends Throwable
 {
 }

@@ -24,8 +24,17 @@ use MattyG\StateMachine\WorkflowInterface;
  */
 class NotEnabledTransitionException extends TransitionException
 {
+    /**
+     * @var TransitionBlockerList
+     */
     private $transitionBlockerList;
 
+    /**
+     * @param object $subject
+     * @param string $transitionName
+     * @param WorkflowInterface $workflow
+     * @param TransitionBlockerList $transitionBlockerList
+     */
     public function __construct(object $subject, string $transitionName, WorkflowInterface $workflow, TransitionBlockerList $transitionBlockerList)
     {
         parent::__construct($subject, $transitionName, $workflow, sprintf('Transition "%s" is not enabled for workflow "%s".', $transitionName, $workflow->getName()));
@@ -33,6 +42,9 @@ class NotEnabledTransitionException extends TransitionException
         $this->transitionBlockerList = $transitionBlockerList;
     }
 
+    /**
+     * @return TransitionBlockerList
+     */
     public function getTransitionBlockerList(): TransitionBlockerList
     {
         return $this->transitionBlockerList;

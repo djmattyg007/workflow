@@ -22,10 +22,27 @@ use MattyG\StateMachine\WorkflowInterface;
  */
 class TransitionException extends LogicException
 {
+    /**
+     * @var object
+     */
     private $subject;
+
+    /**
+     * @var string
+     */
     private $transitionName;
+
+    /**
+     * @var WorkflowInterface
+     */
     private $workflow;
 
+    /**
+     * @param object $subject
+     * @param string $transitionName
+     * @param WorkflowInterface $workflow
+     * @param string $message
+     */
     public function __construct(object $subject, string $transitionName, WorkflowInterface $workflow, string $message)
     {
         parent::__construct($message);
@@ -35,16 +52,25 @@ class TransitionException extends LogicException
         $this->workflow = $workflow;
     }
 
+    /**
+     * @return object
+     */
     public function getSubject(): object
     {
         return $this->subject;
     }
 
+    /**
+     * @return string
+     */
     public function getTransitionName(): string
     {
         return $this->transitionName;
     }
 
+    /**
+     * @return WorkflowInterface
+     */
     public function getWorkflow(): WorkflowInterface
     {
         return $this->workflow;

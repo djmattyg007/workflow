@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\Event;
 
-use MattyG\StateMachine\Marking;
 use MattyG\StateMachine\Transition;
 use MattyG\StateMachine\TransitionBlocker;
 use MattyG\StateMachine\TransitionBlockerList;
@@ -34,9 +33,9 @@ final class GuardEvent extends Event
     /**
      * {@inheritdoc}
      */
-    public function __construct(object $subject, string $state, Transition $transition, WorkflowInterface $workflow = null)
+    public function __construct(object $subject, Transition $transition, WorkflowInterface $workflow)
     {
-        parent::__construct($subject, $state, $transition, $workflow);
+        parent::__construct($subject, $transition, $workflow);
 
         $this->transitionBlockerList = new TransitionBlockerList();
     }

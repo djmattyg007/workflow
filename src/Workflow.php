@@ -177,19 +177,19 @@ class Workflow implements WorkflowInterface
 
         $newState = $approvedTransition->getTo();
 
-        $this->leave($subject, $approvedTransition, $originalState);
+        $this->leave($subject, $approvedTransition);
 
-        $context = $this->transition($subject, $approvedTransition, $newState, $context);
+        $context = $this->transition($subject, $approvedTransition, $context);
 
-        $this->enter($subject, $approvedTransition, $newState);
+        $this->enter($subject, $approvedTransition);
 
         $this->stateAccessor->setState($subject, $newState, $context);
 
-        $this->entered($subject, $approvedTransition, $newState);
+        $this->entered($subject, $approvedTransition);
 
-        $this->completed($subject, $approvedTransition, $newState);
+        $this->completed($subject, $approvedTransition);
 
-        $this->announce($subject, $approvedTransition, $newState);
+        $this->announce($subject, $approvedTransition);
 
         return $newState;
     }
@@ -259,7 +259,7 @@ class Workflow implements WorkflowInterface
             ]);
         }
 
-        $event = $this->guardTransition($subject, $state, $transition);
+        $event = $this->guardTransition($subject, $transition);
 
         if ($event !== null && $event->isBlocked()) {
             return $event->getTransitionBlockerList();
@@ -270,17 +270,16 @@ class Workflow implements WorkflowInterface
 
     /**
      * @param object $subject
-     * @param string $state
      * @param Transition $transition
      * @return GuardEvent|null
      */
-    private function guardTransition(object $subject, string $state, Transition $transition): ?GuardEvent
+    private function guardTransition(object $subject, Transition $transition): ?GuardEvent
     {
         if (null === $this->dispatcher) {
             return null;
         }
 
-        $event = new GuardEvent($subject, $state, $transition, $this);
+        $event = new GuardEvent($subject, $transition, $this);
 
         $this->dispatcher->dispatch($event, WorkflowEvents::GUARD);
         $this->dispatcher->dispatch($event, sprintf('workflow.%s.guard', $this->name));
@@ -294,13 +293,13 @@ class Workflow implements WorkflowInterface
      * @param Transition $transition
      * @param string $state
      */
-    private function leave(object $subject, Transition $transition, string $state): void
+    private function leave(object $subject, Transition $transition): void
     {
         if (null === $this->dispatcher) {
             return;
         }
 
-        $event = new LeaveEvent($subject, $state, $transition, $this);
+        $event = new LeaveEvent($subject, $transition, $this);
 
         $this->dispatcher->dispatch($event, WorkflowEvents::LEAVE);
         $this->dispatcher->dispatch($event, sprintf('workflow.%s.leave', $this->name));
@@ -310,18 +309,16 @@ class Workflow implements WorkflowInterface
     /**
      * @param object $subject
      * @param Transition $transition
-     * @param string $state
      * @param array $context
      * @return array
      */
-    private function transition(object $subject, Transition $transition, string $state, array $context): array
+    private function transition(object $subject, Transition $transition, array $context): array
     {
         if (null === $this->dispatcher) {
             return $context;
         }
 
-        $event = new TransitionEvent($subject, $state, $transition, $this);
-        $event->setContext($context);
+        $event = new TransitionEvent($subject, $transition, $this, $context);
 
         $this->dispatcher->dispatch($event, WorkflowEvents::TRANSITION);
         $this->dispatcher->dispatch($event, sprintf('workflow.%s.transition', $this->name));
@@ -335,13 +332,13 @@ class Workflow implements WorkflowInterface
      * @param Transition $transition
      * @param string $state
      */
-    private function enter(object $subject, Transition $transition, string $state): void
+    private function enter(object $subject, Transition $transition): void
     {
         if (null === $this->dispatcher) {
             return;
         }
 
-        $event = new EnterEvent($subject, $state, $transition, $this);
+        $event = new EnterEvent($subject, $transition, $this);
 
         $this->dispatcher->dispatch($event, WorkflowEvents::ENTER);
         $this->dispatcher->dispatch($event, sprintf('workflow.%s.enter', $this->name));
@@ -351,15 +348,14 @@ class Workflow implements WorkflowInterface
     /**
      * @param object $subject
      * @param Transition $transition
-     * @param string $state
      */
-    private function entered(object $subject, Transition $transition, string $state): void
+    private function entered(object $subject, Transition $transition): void
     {
         if (null === $this->dispatcher) {
             return;
         }
 
-        $event = new EnteredEvent($subject, $state, $transition, $this);
+        $event = new EnteredEvent($subject, $transition, $this);
 
         $this->dispatcher->dispatch($event, WorkflowEvents::ENTERED);
         $this->dispatcher->dispatch($event, sprintf('workflow.%s.entered', $this->name));
@@ -369,15 +365,14 @@ class Workflow implements WorkflowInterface
     /**
      * @param object $subject
      * @param Transition $transition
-     * @param string $state
      */
-    private function completed(object $subject, Transition $transition, string $state): void
+    private function completed(object $subject, Transition $transition): void
     {
         if (null === $this->dispatcher) {
             return;
         }
 
-        $event = new CompletedEvent($subject, $state, $transition, $this);
+        $event = new CompletedEvent($subject, $transition, $this);
 
         $this->dispatcher->dispatch($event, WorkflowEvents::COMPLETED);
         $this->dispatcher->dispatch($event, sprintf('workflow.%s.completed', $this->name));
@@ -387,15 +382,14 @@ class Workflow implements WorkflowInterface
     /**
      * @param object $subject
      * @param Transition $initialTransition
-     * @param string $state
      */
-    private function announce(object $subject, Transition $initialTransition, string $state): void
+    private function announce(object $subject, Transition $initialTransition): void
     {
         if (null === $this->dispatcher) {
             return;
         }
 
-        $event = new AnnounceEvent($subject, $state, $initialTransition, $this);
+        $event = new AnnounceEvent($subject, $initialTransition, $this);
 
         $this->dispatcher->dispatch($event, WorkflowEvents::ANNOUNCE);
         $this->dispatcher->dispatch($event, sprintf('workflow.%s.announce', $this->name));

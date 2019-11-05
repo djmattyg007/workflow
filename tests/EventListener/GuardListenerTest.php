@@ -151,7 +151,7 @@ class GuardListenerTest extends TestCase
 
         $workflow = $this->getMockBuilder(WorkflowInterface::class)->getMock();
 
-        return new GuardEvent($subject, $subject->getState(), $transition, $workflow);
+        return new GuardEvent($subject, $transition, $workflow);
     }
 
     private function configureAuthenticationChecker($isUsed, $granted = true)

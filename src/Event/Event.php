@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\Event;
 
-use MattyG\StateMachine\Marking;
 use MattyG\StateMachine\Transition;
 use MattyG\StateMachine\WorkflowInterface;
 use Symfony\Contracts\EventDispatcher\Event as BaseEvent;
@@ -31,30 +30,23 @@ class Event extends BaseEvent
     private $subject;
 
     /**
-     * @var string
-     */
-    private $state;
-
-    /**
      * @var Transition
      */
     private $transition;
 
     /**
-     * @var WorkflowInterface|null
+     * @var WorkflowInterface
      */
     private $workflow;
 
     /**
      * @param object $subject
-     * @param string $state
      * @param Transition $transition
-     * @param WorkflowInterface|null $workflow
+     * @param WorkflowInterface $workflow
      */
-    public function __construct(object $subject, string $state, Transition $transition, WorkflowInterface $workflow = null)
+    public function __construct(object $subject, Transition $transition, WorkflowInterface $workflow)
     {
         $this->subject = $subject;
-        $this->state = $state;
         $this->transition = $transition;
         $this->workflow = $workflow;
     }
@@ -68,14 +60,6 @@ class Event extends BaseEvent
     }
 
     /**
-     * @return string
-     */
-    public function getState(): string
-    {
-        return $this->state;
-    }
-
-    /**
      * @return Transition
      */
     public function getTransition(): Transition
@@ -84,9 +68,25 @@ class Event extends BaseEvent
     }
 
     /**
-     * @return WorkflowInterface|null
+     * @return string
      */
-    public function getWorkflow(): ?WorkflowInterface
+    public function getPreviousState(): string
+    {
+        return $this->transition->getFrom();
+    }
+
+    /**
+     * @return string
+     */
+    public function getNewState(): string
+    {
+        return $this->transition->getTo();
+    }
+
+    /**
+     * @return WorkflowInterface
+     */
+    public function getWorkflow(): WorkflowInterface
     {
         return $this->workflow;
     }
@@ -96,19 +96,11 @@ class Event extends BaseEvent
      */
     public function getWorkflowName(): string
     {
-        if ($this->workflow !== null) {
-            return $this->workflow->getName();
-        } else {
-            return '';
-        }
+        return $this->workflow->getName();
     }
 
     public function getMetadata(string $key, object $subject)
     {
-        if ($this->workflow === null) {
-            return null;
-        } else {
-            return $this->workflow->getMetadataStore()->getMetadata($key, $subject);
-        }
+        return $this->workflow->getMetadataStore()->getMetadata($key, $subject);
     }
 }

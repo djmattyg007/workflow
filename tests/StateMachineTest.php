@@ -110,7 +110,7 @@ class StateMachineTest extends TestCase
         $this->assertSame('blocker', $blockers[0]->getCode());
 
         // Test if when you are in place "d" trying transition "t1" then
-        // returned blocker list contains guard blocker instead blockedByMarking
+        // returned blocker list contains guard blocker instead blockedByState
         $subject->setState('d');
         $transitionBlockerList = $net->buildTransitionBlockerList($subject, 't1');
         $this->assertCount(1, $transitionBlockerList);

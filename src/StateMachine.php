@@ -14,10 +14,6 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine;
 
-use MattyG\StateMachine\MarkingStore\MarkingStoreInterface;
-use MattyG\StateMachine\MarkingStore\MethodMarkingStore;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */

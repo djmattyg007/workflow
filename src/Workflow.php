@@ -281,9 +281,9 @@ class Workflow implements WorkflowInterface
 
         $event = new GuardEvent($subject, $transition, $this);
 
-        $this->dispatcher->dispatch($event, WorkflowEvents::GUARD);
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.guard', $this->name));
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.guard.%s', $this->name, $transition->getName()));
+        $this->dispatcher->dispatch($event, 'statemachine.guard');
+        $this->dispatcher->dispatch($event, sprintf('statemachine.guard.%s', $this->name));
+        $this->dispatcher->dispatch($event, sprintf('statemachine.guard.%s.%s', $this->name, $transition->getName()));
 
         return $event;
     }
@@ -301,9 +301,9 @@ class Workflow implements WorkflowInterface
 
         $event = new LeaveEvent($subject, $transition, $this);
 
-        $this->dispatcher->dispatch($event, WorkflowEvents::LEAVE);
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.leave', $this->name));
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.leave.%s', $this->name, $transition->getFrom()));
+        $this->dispatcher->dispatch($event, 'statemachine.leave');
+        $this->dispatcher->dispatch($event, sprintf('statemachine.leave.%s', $this->name));
+        $this->dispatcher->dispatch($event, sprintf('statemachine.leave.%s.%s', $this->name, $transition->getFrom()));
     }
 
     /**
@@ -320,9 +320,9 @@ class Workflow implements WorkflowInterface
 
         $event = new TransitionEvent($subject, $transition, $this, $context);
 
-        $this->dispatcher->dispatch($event, WorkflowEvents::TRANSITION);
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.transition', $this->name));
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.transition.%s', $this->name, $transition->getName()));
+        $this->dispatcher->dispatch($event, 'statemachine.transition');
+        $this->dispatcher->dispatch($event, sprintf('statemachine.transition.%s', $this->name));
+        $this->dispatcher->dispatch($event, sprintf('statemachine.transition.%s.%s', $this->name, $transition->getName()));
 
         return $event->getContext();
     }
@@ -340,9 +340,9 @@ class Workflow implements WorkflowInterface
 
         $event = new EnterEvent($subject, $transition, $this);
 
-        $this->dispatcher->dispatch($event, WorkflowEvents::ENTER);
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.enter', $this->name));
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.enter.%s', $this->name, $transition->getTo()));
+        $this->dispatcher->dispatch($event, 'statemachine.enter');
+        $this->dispatcher->dispatch($event, sprintf('statemachine.enter.%s', $this->name));
+        $this->dispatcher->dispatch($event, sprintf('statemachine.enter.%s.%s', $this->name, $transition->getTo()));
     }
 
     /**
@@ -357,9 +357,9 @@ class Workflow implements WorkflowInterface
 
         $event = new EnteredEvent($subject, $transition, $this);
 
-        $this->dispatcher->dispatch($event, WorkflowEvents::ENTERED);
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.entered', $this->name));
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.entered.%s', $this->name, $transition->getTo()));
+        $this->dispatcher->dispatch($event, 'statemachine.entered');
+        $this->dispatcher->dispatch($event, sprintf('statemachine.entered.%s', $this->name));
+        $this->dispatcher->dispatch($event, sprintf('statemachine.entered.%s.%s', $this->name, $transition->getTo()));
     }
 
     /**
@@ -374,9 +374,9 @@ class Workflow implements WorkflowInterface
 
         $event = new CompletedEvent($subject, $transition, $this);
 
-        $this->dispatcher->dispatch($event, WorkflowEvents::COMPLETED);
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.completed', $this->name));
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.completed.%s', $this->name, $transition->getName()));
+        $this->dispatcher->dispatch($event, 'statemachine.completed');
+        $this->dispatcher->dispatch($event, sprintf('statemachine.completed.%s', $this->name));
+        $this->dispatcher->dispatch($event, sprintf('statemachine.completed.%s.%s', $this->name, $transition->getName()));
     }
 
     /**
@@ -391,11 +391,11 @@ class Workflow implements WorkflowInterface
 
         $event = new AnnounceEvent($subject, $initialTransition, $this);
 
-        $this->dispatcher->dispatch($event, WorkflowEvents::ANNOUNCE);
-        $this->dispatcher->dispatch($event, sprintf('workflow.%s.announce', $this->name));
+        $this->dispatcher->dispatch($event, 'statemachine.announce');
+        $this->dispatcher->dispatch($event, sprintf('statemachine.announce.%s', $this->name));
 
         foreach ($this->getEnabledTransitions($subject) as $transition) {
-            $this->dispatcher->dispatch($event, sprintf('workflow.%s.announce.%s', $this->name, $transition->getName()));
+            $this->dispatcher->dispatch($event, sprintf('statemachine.announce.%s.%s', $this->name, $transition->getName()));
         }
     }
 }

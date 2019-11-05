@@ -93,7 +93,7 @@ class WorkflowTest extends TestCase
         $definition = $this->createComplexWorkflowDefinition();
         $subject = new Subject('a');
         $eventDispatcher = new EventDispatcher();
-        $eventDispatcher->addListener('workflow.workflow_name.guard.t1-1', function (GuardEvent $event) {
+        $eventDispatcher->addListener('statemachine.guard.workflow_name.t1-1', function (GuardEvent $event) {
             $event->setBlocked(true);
         });
         $workflow = new Workflow($definition, null, $eventDispatcher, 'workflow_name');
@@ -113,16 +113,16 @@ class WorkflowTest extends TestCase
         $workflow->apply($subject, 't1-1');
         $workflow->apply($subject, 't2');
 
-        $eventDispatcher->addListener('workflow.workflow_name.guard.t3', function () use (&$dispatchedEvents) {
-            $dispatchedEvents[] = 'workflow_name.guard.t3';
+        $eventDispatcher->addListener('statemachine.guard.workflow_name.t3', function () use (&$dispatchedEvents) {
+            $dispatchedEvents[] = 'guard.workflow_name.t3';
         });
-        $eventDispatcher->addListener('workflow.workflow_name.guard.t4', function () use (&$dispatchedEvents) {
-            $dispatchedEvents[] = 'workflow_name.guard.t4';
+        $eventDispatcher->addListener('statemachine.guard.workflow_name.t4', function () use (&$dispatchedEvents) {
+            $dispatchedEvents[] = 'guard.workflow_name.t4';
         });
 
         $workflow->can($subject, 't3');
 
-        $this->assertSame(['workflow_name.guard.t3'], $dispatchedEvents);
+        $this->assertSame(['guard.workflow_name.t3'], $dispatchedEvents);
     }
 
     public function testCanWithSameNameTransition()
@@ -208,14 +208,14 @@ class WorkflowTest extends TestCase
         $dispatcher = new EventDispatcher();
         $workflow = new Workflow($definition, null, $dispatcher);
 
-        $dispatcher->addListener('workflow.guard', function (GuardEvent $event) {
+        $dispatcher->addListener('statemachine.guard', function (GuardEvent $event) {
             $event->addTransitionBlocker(new TransitionBlocker('Transition blocker 1', 'blocker_1'));
             $event->addTransitionBlocker(new TransitionBlocker('Transition blocker 2', 'blocker_2'));
         });
-        $dispatcher->addListener('workflow.guard', function (GuardEvent $event) {
+        $dispatcher->addListener('statemachine.guard', function (GuardEvent $event) {
             $event->addTransitionBlocker(new TransitionBlocker('Transition blocker 3', 'blocker_3'));
         });
-        $dispatcher->addListener('workflow.guard', function (GuardEvent $event) {
+        $dispatcher->addListener('statemachine.guard', function (GuardEvent $event) {
             $event->setBlocked(true);
         });
 
@@ -334,31 +334,31 @@ class WorkflowTest extends TestCase
         $workflow = new Workflow($definition, null, $eventDispatcher, 'workflow_name');
 
         $eventNameExpected = [
-            'workflow.guard',
-            'workflow.workflow_name.guard',
-            'workflow.workflow_name.guard.t1-1',
-            'workflow.leave',
-            'workflow.workflow_name.leave',
-            'workflow.workflow_name.leave.a',
-            'workflow.transition',
-            'workflow.workflow_name.transition',
-            'workflow.workflow_name.transition.t1-1',
-            'workflow.enter',
-            'workflow.workflow_name.enter',
-            'workflow.workflow_name.enter.b',
-            'workflow.entered',
-            'workflow.workflow_name.entered',
-            'workflow.workflow_name.entered.b',
-            'workflow.completed',
-            'workflow.workflow_name.completed',
-            'workflow.workflow_name.completed.t1-1',
+            'statemachine.guard',
+            'statemachine.guard.workflow_name',
+            'statemachine.guard.workflow_name.t1-1',
+            'statemachine.leave',
+            'statemachine.leave.workflow_name',
+            'statemachine.leave.workflow_name.a',
+            'statemachine.transition',
+            'statemachine.transition.workflow_name',
+            'statemachine.transition.workflow_name.t1-1',
+            'statemachine.enter',
+            'statemachine.enter.workflow_name',
+            'statemachine.enter.workflow_name.b',
+            'statemachine.entered',
+            'statemachine.entered.workflow_name',
+            'statemachine.entered.workflow_name.b',
+            'statemachine.completed',
+            'statemachine.completed.workflow_name',
+            'statemachine.completed.workflow_name.t1-1',
             // Following events are fired because of announce() method
-            'workflow.announce',
-            'workflow.workflow_name.announce',
-            'workflow.guard',
-            'workflow.workflow_name.guard',
-            'workflow.workflow_name.guard.t2',
-            'workflow.workflow_name.announce.t2',
+            'statemachine.announce',
+            'statemachine.announce.workflow_name',
+            'statemachine.guard',
+            'statemachine.guard.workflow_name',
+            'statemachine.guard.workflow_name.t2',
+            'statemachine.announce.workflow_name.t2',
         ];
 
         $workflow->apply($subject, 't1-1');
@@ -379,26 +379,26 @@ class WorkflowTest extends TestCase
         $workflow = new Workflow($definition, null, $eventDispatcher, 'workflow_name');
 
         $eventNameExpected = [
-            'workflow.guard',
-            'workflow.workflow_name.guard',
-            'workflow.workflow_name.guard.a-b',
-            'workflow.leave',
-            'workflow.workflow_name.leave',
-            'workflow.workflow_name.leave.a',
-            'workflow.transition',
-            'workflow.workflow_name.transition',
-            'workflow.workflow_name.transition.a-b',
-            'workflow.enter',
-            'workflow.workflow_name.enter',
-            'workflow.workflow_name.enter.b',
-            'workflow.entered',
-            'workflow.workflow_name.entered',
-            'workflow.workflow_name.entered.b',
-            'workflow.completed',
-            'workflow.workflow_name.completed',
-            'workflow.workflow_name.completed.a-b',
-            'workflow.announce',
-            'workflow.workflow_name.announce',
+            'statemachine.guard',
+            'statemachine.guard.workflow_name',
+            'statemachine.guard.workflow_name.a-b',
+            'statemachine.leave',
+            'statemachine.leave.workflow_name',
+            'statemachine.leave.workflow_name.a',
+            'statemachine.transition',
+            'statemachine.transition.workflow_name',
+            'statemachine.transition.workflow_name.a-b',
+            'statemachine.enter',
+            'statemachine.enter.workflow_name',
+            'statemachine.enter.workflow_name.b',
+            'statemachine.entered',
+            'statemachine.entered.workflow_name',
+            'statemachine.entered.workflow_name.b',
+            'statemachine.completed',
+            'statemachine.completed.workflow_name',
+            'statemachine.completed.workflow_name.a-b',
+            'statemachine.announce',
+            'statemachine.announce.workflow_name',
         ];
 
         $workflow->apply($subject, 'a-b');
@@ -411,7 +411,7 @@ class WorkflowTest extends TestCase
         $definition = $this->createComplexWorkflowDefinition();
         $subject = new Subject('a');
         $eventDispatcher = new EventDispatcher();
-        $eventDispatcher->addListener('workflow.transition', function (TransitionEvent $event) {
+        $eventDispatcher->addListener('statemachine.transition', function (TransitionEvent $event) {
             $event->setContext(array_merge($event->getContext(), ['user' => 'admin']));
         });
         $workflow = new Workflow($definition, null, $eventDispatcher);
@@ -434,12 +434,12 @@ class WorkflowTest extends TestCase
         };
 
         $eventNames = [
-            'workflow.guard',
-            'workflow.leave',
-            'workflow.transition',
-            'workflow.enter',
-            'workflow.entered',
-            'workflow.announce',
+            'statemachine.guard',
+            'statemachine.leave',
+            'statemachine.transition',
+            'statemachine.enter',
+            'statemachine.entered',
+            'statemachine.announce',
         ];
 
         foreach ($eventNames as $eventName) {
@@ -454,10 +454,10 @@ class WorkflowTest extends TestCase
         $definition = $this->createComplexWorkflowDefinition();
         $subject = new Subject('a');
         $eventDispatcher = new EventDispatcher();
-        $eventDispatcher->addListener('workflow.workflow_name.guard.t1-1', function (GuardEvent $event) {
+        $eventDispatcher->addListener('statemachine.guard.workflow_name.t1-1', function (GuardEvent $event) {
             $event->setBlocked(true);
         });
-        $eventDispatcher->addListener('workflow.workflow_name.guard.t1-2', function (GuardEvent $event) {
+        $eventDispatcher->addListener('statemachine.guard.workflow_name.t1-2', function (GuardEvent $event) {
             $event->setBlocked(true);
         });
         $workflow = new Workflow($definition, null, $eventDispatcher, 'workflow_name');

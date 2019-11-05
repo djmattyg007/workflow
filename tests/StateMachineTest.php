@@ -89,7 +89,7 @@ class StateMachineTest extends TestCase
         $dispatcher = new EventDispatcher();
         $net = new StateMachine($definition, null, $dispatcher);
 
-        $dispatcher->addListener('workflow.guard', function (GuardEvent $event) {
+        $dispatcher->addListener('statemachine.guard', function (GuardEvent $event) {
             $event->addTransitionBlocker(new TransitionBlocker(sprintf('Transition blocker of place %s', $event->getTransition()->getFrom()), 'blocker'));
         });
 
@@ -99,7 +99,7 @@ class StateMachineTest extends TestCase
         // that are not enabled for the current state are evaluated.
         // see https://github.com/symfony/symfony/issues/28432
 
-        // Test if when you are in place "a"trying transition "t1" then returned
+        // Test if when you are in place "a" trying transition "t1" then returned
         // blocker list contains guard blocker instead blockedByState
         $subject->setState('a');
         $transitionBlockerList = $net->buildTransitionBlockerList($subject, 't1');

@@ -291,7 +291,6 @@ class Workflow implements WorkflowInterface
     /**
      * @param object $subject
      * @param Transition $transition
-     * @param string $state
      */
     private function leave(object $subject, Transition $transition): void
     {
@@ -330,7 +329,6 @@ class Workflow implements WorkflowInterface
     /**
      * @param object $subject
      * @param Transition $transition
-     * @param string $state
      */
     private function enter(object $subject, Transition $transition): void
     {

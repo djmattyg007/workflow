@@ -18,9 +18,9 @@ use MattyG\StateMachine\Definition;
 use MattyG\StateMachine\Metadata\InMemoryMetadataStore;
 use MattyG\StateMachine\Transition;
 
-trait WorkflowBuilderTrait
+trait StateMachineBuilderTrait
 {
-    private function createComplexWorkflowDefinition()
+    private function createComplexStateMachineDefinition1()
     {
         $places = range('a', 'g');
 
@@ -57,7 +57,7 @@ trait WorkflowBuilderTrait
         // *======*     +----+                         *====*     +----+     *====*
     }
 
-    private function createSimpleWorkflowDefinition()
+    private function createSimpleStateMachineDefinition()
     {
         $places = range('a', 'c');
 
@@ -92,7 +92,7 @@ trait WorkflowBuilderTrait
         // +---+     +----+     +---+     +----+     +---+
     }
 
-    private function createWorkflowWithSameNameTransition()
+    private function createStateMachineWithSameNameTransition()
     {
         $places = range('a', 'c');
 
@@ -122,7 +122,7 @@ trait WorkflowBuilderTrait
         //            *========*                 +---+
     }
 
-    private function createComplexStateMachineDefinition()
+    private function createComplexStateMachineDefinition2()
     {
         $places = ['a', 'b', 'c', 'd'];
 

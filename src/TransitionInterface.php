@@ -39,18 +39,22 @@ interface TransitionInterface
 
     /**
      * @param object $subject
-     * @param WorkflowInterface $workflow
+     * @param StateMachineInterface $stateMachine
      * @return bool False if the transition is not available to the subject.
      */
-    public function checkIsAvailable(object $subject, WorkflowInterface $workflow): bool;
+    public function checkIsAvailable(object $subject, StateMachineInterface $stateMachine): bool;
 
     /**
+     * @param object $subject
+     * @param StateMachineInterface $stateMachine
      * @throws LogicException If the subject is not eligible to leave its current state.
      */
-    public function checkCanLeave(object $subject, WorkflowInterface $workflow): void;
+    public function checkCanLeave(object $subject, StateMachineInterface $stateMachine): void;
 
     /**
+     * @param object $subject
+     * @param StateMachineInterface $stateMachine
      * @throws LogicException If the subject is not eligible to enter the new state.
      */
-    public function checkCanEnter(object $subject, WorkflowInterface $workflow): void;
+    public function checkCanEnter(object $subject, StateMachineInterface $stateMachine): void;
 }

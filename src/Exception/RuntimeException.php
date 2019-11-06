@@ -17,8 +17,6 @@ namespace MattyG\StateMachine\Exception;
 use RuntimeException as BaseRuntimeException;
 
 /**
- * Base RuntimeException for the Workflow component.
- *
  * @author Alain Flaus <alain.flaus@gmail.com>
  */
 class RuntimeException extends BaseRuntimeException implements ExceptionInterface

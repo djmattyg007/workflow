@@ -21,7 +21,7 @@ class StateMachineGraphvizDumper extends GraphvizDumper
     /**
      * {@inheritdoc}
      *
-     * Dumps the workflow as a graphviz graph.
+     * Dumps the state machine as a graphviz graph.
      *
      * Available options:
      *
@@ -29,7 +29,7 @@ class StateMachineGraphvizDumper extends GraphvizDumper
      *  * node: The default options for nodes (places)
      *  * edge: The default options for edges
      */
-    public function dump(Definition $definition, ?string $state = null, array $options = [])
+    public function dump(Definition $definition, ?string $state = null, array $options = []): string
     {
         $places = $this->findPlaces($definition, $state);
         $edges = $this->findEdges($definition);
@@ -50,20 +50,20 @@ class StateMachineGraphvizDumper extends GraphvizDumper
      */
     protected function findEdges(Definition $definition): array
     {
-        $workflowMetadata = $definition->getMetadataStore();
+        $stateMachineMetadata = $definition->getMetadataStore();
 
         $edges = [];
 
         foreach ($definition->getTransitions() as $transition) {
             $attributes = [];
 
-            $transitionName = $workflowMetadata->getMetadata('label', $transition) ?? $transition->getName();
+            $transitionName = $stateMachineMetadata->getMetadata('label', $transition) ?? $transition->getName();
 
-            $labelColor = $workflowMetadata->getMetadata('color', $transition);
+            $labelColor = $stateMachineMetadata->getMetadata('color', $transition);
             if (null !== $labelColor) {
                 $attributes['fontcolor'] = $labelColor;
             }
-            $arrowColor = $workflowMetadata->getMetadata('arrow_color', $transition);
+            $arrowColor = $stateMachineMetadata->getMetadata('arrow_color', $transition);
             if (null !== $arrowColor) {
                 $attributes['color'] = $arrowColor;
             }

@@ -17,13 +17,13 @@ namespace MattyG\StateMachine\Tests\Validator;
 use PHPUnit\Framework\TestCase;
 use MattyG\StateMachine\Definition;
 use MattyG\StateMachine\Exception\InvalidDefinitionException;
-use MattyG\StateMachine\Tests\WorkflowBuilderTrait;
+use MattyG\StateMachine\Tests\StateMachineBuilderTrait;
 use MattyG\StateMachine\Transition;
 use MattyG\StateMachine\Validator\WorkflowValidator;
 
 class WorkflowValidatorTest extends TestCase
 {
-    use WorkflowBuilderTrait;
+    //use StateMachineBuilderTrait;
 
     public function testWorkflowWithInvalidNames()
     {

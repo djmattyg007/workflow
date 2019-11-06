@@ -21,7 +21,7 @@ use MattyG\StateMachine\StateAccessor\StateAccessorInterface;
 /**
  * @author Amrouche Hamza <hamza.simperfit@gmail.com>
  */
-interface WorkflowInterface
+interface StateMachineInterface
 {
     /**
      * Returns the object's current state.

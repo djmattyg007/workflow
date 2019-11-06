@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\SupportStrategy;
 
-use MattyG\StateMachine\WorkflowInterface;
+use MattyG\StateMachine\StateMachineInterface;
 
 /**
  * @author Andreas Kleemann <akleemann@inviqa.com>
  * @author Amrouche Hamza <hamza.simperfit@gmail.com>
  */
-final class InstanceOfSupportStrategy implements WorkflowSupportStrategyInterface
+final class InstanceOfSupportStrategy implements StateMachineSupportStrategyInterface
 {
     /**
      * @var string
@@ -35,7 +35,7 @@ final class InstanceOfSupportStrategy implements WorkflowSupportStrategyInterfac
     /**
      * {@inheritdoc}
      */
-    public function supports(WorkflowInterface $workflow, object $subject): bool
+    public function supports(StateMachineInterface $stateMachine, object $subject): bool
     {
         return $subject instanceof $this->className;
     }

@@ -19,16 +19,16 @@ use Psr\Log\AbstractLogger;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use MattyG\StateMachine\EventListener\AuditTrailListener;
 use MattyG\StateMachine\Tests\Subject;
-use MattyG\StateMachine\Tests\WorkflowBuilderTrait;
-use MattyG\StateMachine\Workflow;
+use MattyG\StateMachine\Tests\StateMachineBuilderTrait;
+use MattyG\StateMachine\StateMachine;
 
 class AuditTrailListenerTest extends TestCase
 {
-    use WorkflowBuilderTrait;
+    use StateMachineBuilderTrait;
 
     public function testItWorks()
     {
-        $definition = $this->createSimpleWorkflowDefinition();
+        $definition = $this->createSimpleStateMachineDefinition();
 
         $object = new Subject('a');
 
@@ -37,14 +37,14 @@ class AuditTrailListenerTest extends TestCase
         $ed = new EventDispatcher();
         $ed->addSubscriber(new AuditTrailListener($logger));
 
-        $workflow = new Workflow($definition, null, $ed);
+        $stateMachine = new StateMachine($definition, null, $ed);
 
-        $workflow->apply($object, 't1');
+        $stateMachine->apply($object, 't1');
 
         $expected = [
-            'Leaving "a" for subject of class "MattyG\StateMachine\Tests\Subject" in workflow "unnamed".',
-            'Transition "t1" for subject of class "MattyG\StateMachine\Tests\Subject" in workflow "unnamed".',
-            'Entering "b" for subject of class "MattyG\StateMachine\Tests\Subject" in workflow "unnamed".',
+            'Leaving "a" for subject of class "MattyG\StateMachine\Tests\Subject" in state machine "unnamed".',
+            'Transition "t1" for subject of class "MattyG\StateMachine\Tests\Subject" in state machine "unnamed".',
+            'Entering "b" for subject of class "MattyG\StateMachine\Tests\Subject" in state machine "unnamed".',
         ];
 
         $this->assertSame($expected, $logger->logs);

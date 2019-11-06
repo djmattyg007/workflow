@@ -16,7 +16,7 @@ namespace MattyG\StateMachine\Tests\SupportStrategy;
 
 use PHPUnit\Framework\TestCase;
 use MattyG\StateMachine\SupportStrategy\InstanceOfSupportStrategy;
-use MattyG\StateMachine\Workflow;
+use MattyG\StateMachine\StateMachine;
 
 class InstanceOfSupportStrategyTest extends TestCase
 {
@@ -24,19 +24,19 @@ class InstanceOfSupportStrategyTest extends TestCase
     {
         $strategy = new InstanceOfSupportStrategy(Subject1::class);
 
-        $this->assertTrue($strategy->supports($this->createWorkflow(), new Subject1()));
+        $this->assertTrue($strategy->supports($this->createStateMachine(), new Subject1()));
     }
 
     public function testSupportsIfNotClassInstance()
     {
         $strategy = new InstanceOfSupportStrategy(Subject2::class);
 
-        $this->assertFalse($strategy->supports($this->createWorkflow(), new Subject1()));
+        $this->assertFalse($strategy->supports($this->createStateMachine(), new Subject1()));
     }
 
-    private function createWorkflow()
+    private function createStateMachine()
     {
-        return $this->getMockBuilder(Workflow::class)
+        return $this->getMockBuilder(StateMachine::class)
             ->disableOriginalConstructor()
             ->getMock();
     }

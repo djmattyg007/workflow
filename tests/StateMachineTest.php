@@ -22,11 +22,11 @@ use MattyG\StateMachine\TransitionBlocker;
 
 class StateMachineTest extends TestCase
 {
-    use WorkflowBuilderTrait;
+    use StateMachineBuilderTrait;
 
     public function testCan()
     {
-        $definition = $this->createComplexStateMachineDefinition();
+        $definition = $this->createComplexStateMachineDefinition2();
 
         $net = new StateMachine($definition);
         $subject = new Subject();
@@ -43,7 +43,7 @@ class StateMachineTest extends TestCase
 
     public function testCanWithMultipleTransition()
     {
-        $definition = $this->createComplexStateMachineDefinition();
+        $definition = $this->createComplexStateMachineDefinition2();
 
         $net = new StateMachine($definition);
         $subject = new Subject();
@@ -56,7 +56,7 @@ class StateMachineTest extends TestCase
 
     public function testBuildTransitionBlockerList()
     {
-        $definition = $this->createComplexStateMachineDefinition();
+        $definition = $this->createComplexStateMachineDefinition2();
 
         $net = new StateMachine($definition);
         $subject = new Subject();
@@ -72,7 +72,7 @@ class StateMachineTest extends TestCase
 
     public function testBuildTransitionBlockerListWithMultipleTransitions()
     {
-        $definition = $this->createComplexStateMachineDefinition();
+        $definition = $this->createComplexStateMachineDefinition2();
 
         $net = new StateMachine($definition);
         $subject = new Subject();
@@ -84,13 +84,13 @@ class StateMachineTest extends TestCase
 
     public function testBuildTransitionBlockerListReturnsExpectedReasonOnBranchMerge()
     {
-        $definition = $this->createComplexStateMachineDefinition();
+        $definition = $this->createComplexStateMachineDefinition2();
 
         $dispatcher = new EventDispatcher();
         $net = new StateMachine($definition, null, $dispatcher);
 
         $dispatcher->addListener('statemachine.guard', function (GuardEvent $event) {
-            $event->addTransitionBlocker(new TransitionBlocker(sprintf('Transition blocker of place %s', $event->getTransition()->getFrom()), 'blocker'));
+            $event->addTransitionBlocker(new TransitionBlocker(sprintf('Transition blocker of place %s', $event->getPreviousState()), 'blocker'));
         });
 
         $subject = new Subject();

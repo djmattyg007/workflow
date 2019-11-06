@@ -58,14 +58,14 @@ final class Definition
             $this->addPlace($place);
         }
         if (count($this->places) === 0) {
-            throw new InvalidArgumentException("Cannot have a workflow definition with no places.");
+            throw new InvalidArgumentException("Cannot have a state machine definition with no places.");
         }
 
         foreach ($transitions as $transition) {
             $this->addTransition($transition);
         }
         if (count($this->transitions) === 0) {
-            throw new InvalidArgumentException("Cannot have a workflow definition with no transitions.");
+            throw new InvalidArgumentException("Cannot have a state machine definition with no transitions.");
         }
 
         $this->setInitialPlace($initialPlace);
@@ -80,7 +80,7 @@ final class Definition
     {
         // There is guaranteed to be an initial place by the time this is called,
         // because we enforce the fact that there must be at least one place in
-        // the workflow definition. This check takes place in the constructor.
+        // a state machine definition. This check takes place in the constructor.
 
         /** @var string $initialPlace */
         $initialPlace = $this->initialPlace;

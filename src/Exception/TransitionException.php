@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\Exception;
 
-use MattyG\StateMachine\WorkflowInterface;
+use MattyG\StateMachine\StateMachineInterface;
 
 /**
  * @author Andrew Tch <andrew.tchircoff@gmail.com>
@@ -33,23 +33,23 @@ class TransitionException extends LogicException
     private $transitionName;
 
     /**
-     * @var WorkflowInterface
+     * @var StateMachineInterface
      */
-    private $workflow;
+    private $stateMachine;
 
     /**
      * @param object $subject
      * @param string $transitionName
-     * @param WorkflowInterface $workflow
+     * @param StateMachineInterface $stateMachine
      * @param string $message
      */
-    public function __construct(object $subject, string $transitionName, WorkflowInterface $workflow, string $message)
+    public function __construct(object $subject, string $transitionName, StateMachineInterface $stateMachine, string $message)
     {
         parent::__construct($message);
 
         $this->subject = $subject;
         $this->transitionName = $transitionName;
-        $this->workflow = $workflow;
+        $this->stateMachine = $stateMachine;
     }
 
     /**
@@ -69,10 +69,10 @@ class TransitionException extends LogicException
     }
 
     /**
-     * @return WorkflowInterface
+     * @return StateMachineInterface
      */
-    public function getWorkflow(): WorkflowInterface
+    public function getStateMachine(): StateMachineInterface
     {
-        return $this->workflow;
+        return $this->stateMachine;
     }
 }

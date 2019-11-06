@@ -17,11 +17,11 @@ namespace MattyG\StateMachine\Dumper;
 use MattyG\StateMachine\Definition;
 
 /**
- * GraphvizDumper dumps a workflow as a graphviz file.
+ * GraphvizDumper dumps a state machine as a graphviz file.
  *
  * You can convert the generated dot file with the dot utility (https://graphviz.org/):
  *
- *   dot -Tpng workflow.dot > workflow.png
+ *   dot -Tpng statemachine.dot > statemachine.png
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
@@ -37,7 +37,7 @@ class GraphvizDumper implements DumperInterface
     /**
      * {@inheritdoc}
      *
-     * Dumps the workflow as a graphviz graph.
+     * Dumps the state machine as a graphviz graph.
      *
      * Available options:
      *
@@ -45,7 +45,7 @@ class GraphvizDumper implements DumperInterface
      *  * node: The default options for nodes (places + transitions)
      *  * edge: The default options for edges
      */
-    public function dump(Definition $definition, ?string $state = null, array $options = [])
+    public function dump(Definition $definition, ?string $state = null, array $options = []): string
     {
         $places = $this->findPlaces($definition, $state);
         $transitions = $this->findTransitions($definition);
@@ -68,7 +68,7 @@ class GraphvizDumper implements DumperInterface
      */
     protected function findPlaces(Definition $definition, ?string $state = null): array
     {
-        $workflowMetadata = $definition->getMetadataStore();
+        $stateMachineMetadata = $definition->getMetadataStore();
 
         $places = [];
 
@@ -81,12 +81,12 @@ class GraphvizDumper implements DumperInterface
                 $attributes['color'] = '#FF0000';
                 $attributes['shape'] = 'doublecircle';
             }
-            $backgroundColor = $workflowMetadata->getMetadata('bg_color', $place);
+            $backgroundColor = $stateMachineMetadata->getMetadata('bg_color', $place);
             if (null !== $backgroundColor) {
                 $attributes['style'] = 'filled';
                 $attributes['fillcolor'] = $backgroundColor;
             }
-            $label = $workflowMetadata->getMetadata('label', $place);
+            $label = $stateMachineMetadata->getMetadata('label', $place);
             if (null !== $label) {
                 $attributes['name'] = $label;
             }
@@ -103,19 +103,19 @@ class GraphvizDumper implements DumperInterface
      */
     protected function findTransitions(Definition $definition): array
     {
-        $workflowMetadata = $definition->getMetadataStore();
+        $stateMachineMetadata = $definition->getMetadataStore();
 
         $transitions = [];
 
         foreach ($definition->getTransitions() as $transition) {
             $attributes = ['shape' => 'box', 'regular' => true];
 
-            $backgroundColor = $workflowMetadata->getMetadata('bg_color', $transition);
+            $backgroundColor = $stateMachineMetadata->getMetadata('bg_color', $transition);
             if (null !== $backgroundColor) {
                 $attributes['style'] = 'filled';
                 $attributes['fillcolor'] = $backgroundColor;
             }
-            $name = $workflowMetadata->getMetadata('label', $transition) ?? $transition->getName();
+            $name = $stateMachineMetadata->getMetadata('label', $transition) ?? $transition->getName();
 
             $transitions[] = [
                 'attributes' => $attributes,
@@ -169,12 +169,12 @@ class GraphvizDumper implements DumperInterface
      */
     protected function findEdges(Definition $definition): array
     {
-        $workflowMetadata = $definition->getMetadataStore();
+        $stateMachineMetadata = $definition->getMetadataStore();
 
         $dotEdges = [];
 
         foreach ($definition->getTransitions() as $i => $transition) {
-            $transitionName = $workflowMetadata->getMetadata('label', $transition) ?? $transition->getName();
+            $transitionName = $stateMachineMetadata->getMetadata('label', $transition) ?? $transition->getName();
 
             $dotEdges[] = [
                 'from' => $transition->getFrom(),

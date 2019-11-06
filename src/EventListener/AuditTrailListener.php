@@ -23,31 +23,62 @@ use MattyG\StateMachine\Event\Event;
  */
 class AuditTrailListener implements EventSubscriberInterface
 {
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
 
+    /**
+     * @param LoggerInterface $logger
+     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
+    /**
+     * @param Event $event
+     */
     public function onLeave(Event $event)
     {
-        $transition = $event->getTransition();
-        $this->logger->info(sprintf('Leaving "%s" for subject of class "%s" in workflow "%s".', $transition->getFrom(), \get_class($event->getSubject()), $event->getWorkflowName()));
+        $this->logger->info(sprintf(
+            'Leaving "%s" for subject of class "%s" in state machine "%s".',
+            $event->getPreviousState(),
+            \get_class($event->getSubject()),
+            $event->getStateMachineName()
+        ));
     }
 
+    /**
+     * @param Event $event
+     */
     public function onTransition(Event $event)
     {
         $transition = $event->getTransition();
-        $this->logger->info(sprintf('Transition "%s" for subject of class "%s" in workflow "%s".', $transition->getName(), \get_class($event->getSubject()), $event->getWorkflowName()));
+        $this->logger->info(sprintf(
+            'Transition "%s" for subject of class "%s" in state machine "%s".',
+            $transition->getName(),
+            \get_class($event->getSubject()),
+            $event->getStateMachineName()
+        ));
     }
 
+    /**
+     * @param Event $event
+     */
     public function onEnter(Event $event)
     {
-        $transition = $event->getTransition();
-        $this->logger->info(sprintf('Entering "%s" for subject of class "%s" in workflow "%s".', $transition->getTo(), \get_class($event->getSubject()), $event->getWorkflowName()));
+        $this->logger->info(sprintf(
+            'Entering "%s" for subject of class "%s" in state machine "%s".',
+            $event->getNewState(),
+            \get_class($event->getSubject()),
+            $event->getStateMachineName()
+        ));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function getSubscribedEvents()
     {
         return [

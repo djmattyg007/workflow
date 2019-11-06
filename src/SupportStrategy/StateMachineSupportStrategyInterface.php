@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\SupportStrategy;
 
-use MattyG\StateMachine\WorkflowInterface;
+use MattyG\StateMachine\StateMachineInterface;
 
 /**
  * @author Amrouche Hamza <hamza.simperfit@gmail.com>
  */
-interface WorkflowSupportStrategyInterface
+interface StateMachineSupportStrategyInterface
 {
-    public function supports(WorkflowInterface $workflow, object $subject): bool;
+    public function supports(StateMachineInterface $stateMachine, object $subject): bool;
 }

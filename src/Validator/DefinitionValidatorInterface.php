@@ -24,6 +24,8 @@ use MattyG\StateMachine\Exception\InvalidDefinitionException;
 interface DefinitionValidatorInterface
 {
     /**
+     * @param Definition $definition
+     * @param string $name
      * @throws InvalidDefinitionException on invalid definition
      */
     public function validate(Definition $definition, string $name): void;

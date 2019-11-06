@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace MattyG\StateMachine\Metadata;
 
 use MattyG\StateMachine\TransitionInterface;
+use SplObjectStorage;
 
 /**
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
@@ -23,27 +24,52 @@ final class InMemoryMetadataStore implements MetadataStoreInterface
 {
     use GetMetadataTrait;
 
-    private $workflowMetadata;
+    /**
+     * @var array
+     */
+    private $stateMachineMetadata;
+
+    /**
+     * @var array<string, array>
+     */
     private $placesMetadata;
+
+    /**
+     * @var SplObjectStorage
+     */
     private $transitionsMetadata;
 
-    public function __construct(array $workflowMetadata = [], array $placesMetadata = [], \SplObjectStorage $transitionsMetadata = null)
+    /**
+     * @param array $stateMachineMetadata
+     * @param array<string, array> $placesMetadata
+     * @param SplObjectStorage|null $transitionsMetadata
+     */
+    public function __construct(array $stateMachineMetadata = [], array $placesMetadata = [], SplObjectStorage $transitionsMetadata = null)
     {
-        $this->workflowMetadata = $workflowMetadata;
+        $this->stateMachineMetadata = $stateMachineMetadata;
         $this->placesMetadata = $placesMetadata;
-        $this->transitionsMetadata = $transitionsMetadata ?: new \SplObjectStorage();
+        $this->transitionsMetadata = $transitionsMetadata ?: new SplObjectStorage();
     }
 
-    public function getWorkflowMetadata(): array
+    /**
+     * {@inheritdoc}
+     */
+    public function getStateMachineMetadata(): array
     {
-        return $this->workflowMetadata;
+        return $this->stateMachineMetadata;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPlaceMetadata(string $place): array
     {
         return $this->placesMetadata[$place] ?? [];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTransitionMetadata(TransitionInterface $transition): array
     {
         return $this->transitionsMetadata[$transition] ?? [];

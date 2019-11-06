@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace MattyG\StateMachine\Exception;
 
 use MattyG\StateMachine\TransitionBlockerList;
-use MattyG\StateMachine\WorkflowInterface;
+use MattyG\StateMachine\StateMachineInterface;
 
 /**
- * Thrown by Workflow when a not enabled transition is applied on a subject.
+ * Thrown by a state machine when a not enabled transition is applied on a subject.
  *
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
@@ -32,12 +32,12 @@ class NotEnabledTransitionException extends TransitionException
     /**
      * @param object $subject
      * @param string $transitionName
-     * @param WorkflowInterface $workflow
+     * @param StateMachineInterface $stateMachine
      * @param TransitionBlockerList $transitionBlockerList
      */
-    public function __construct(object $subject, string $transitionName, WorkflowInterface $workflow, TransitionBlockerList $transitionBlockerList)
+    public function __construct(object $subject, string $transitionName, StateMachineInterface $stateMachine, TransitionBlockerList $transitionBlockerList)
     {
-        parent::__construct($subject, $transitionName, $workflow, sprintf('Transition "%s" is not enabled for workflow "%s".', $transitionName, $workflow->getName()));
+        parent::__construct($subject, $transitionName, $stateMachine, sprintf('Transition "%s" is not enabled for state machine "%s".', $transitionName, $stateMachine->getName()));
 
         $this->transitionBlockerList = $transitionBlockerList;
     }

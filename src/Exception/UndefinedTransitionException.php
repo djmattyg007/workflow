@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace MattyG\StateMachine\Exception;
 
-use MattyG\StateMachine\WorkflowInterface;
+use MattyG\StateMachine\StateMachineInterface;
 
 /**
- * Thrown by Workflow when an undefined transition is applied on a subject.
+ * Thrown by a state machine when an undefined transition is applied on a subject.
  *
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
@@ -26,10 +26,10 @@ class UndefinedTransitionException extends TransitionException
     /**
      * @param object $subject
      * @param string $transitionName
-     * @param WorkflowInterface $workflow
+     * @param StateMachineInterface $stateMachine
      */
-    public function __construct(object $subject, string $transitionName, WorkflowInterface $workflow)
+    public function __construct(object $subject, string $transitionName, StateMachineInterface $stateMachine)
     {
-        parent::__construct($subject, $transitionName, $workflow, sprintf('Transition "%s" is not defined for workflow "%s".', $transitionName, $workflow->getName()));
+        parent::__construct($subject, $transitionName, $stateMachine, sprintf('Transition "%s" is not defined for state machine "%s".', $transitionName, $stateMachine->getName()));
     }
 }

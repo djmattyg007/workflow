@@ -17,7 +17,7 @@ namespace MattyG\StateMachine\Dumper;
 use MattyG\StateMachine\Definition;
 
 /**
- * DumperInterface is the interface implemented by workflow dumper classes.
+ * DumperInterface is the interface implemented by state machine dumper classes.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
@@ -25,12 +25,12 @@ use MattyG\StateMachine\Definition;
 interface DumperInterface
 {
     /**
-     * Dumps a workflow definition.
+     * Dumps a state machine definition.
      *
      * @param Definition $definition
      * @param string|null $state
      * @param array $options
-     * @return string The representation of the workflow
+     * @return string The representation of the state machine
      */
-    public function dump(Definition $definition, ?string $state = null, array $options = []);
+    public function dump(Definition $definition, ?string $state = null, array $options = []): string;
 }

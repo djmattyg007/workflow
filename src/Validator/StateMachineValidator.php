@@ -22,6 +22,9 @@ use MattyG\StateMachine\Exception\InvalidDefinitionException;
  */
 class StateMachineValidator implements DefinitionValidatorInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function validate(Definition $definition, string $name): void
     {
         $transitionFromNames = [];
@@ -29,7 +32,7 @@ class StateMachineValidator implements DefinitionValidatorInterface
             // Enforcing uniqueness of the names of transitions starting at each node
             $from = $transition->getFrom();
             if (isset($transitionFromNames[$from][$transition->getName()])) {
-                throw new InvalidDefinitionException(sprintf('A transition from a place/state must have an unique name. Multiple transitions named "%s" from place/state "%s" were found on StateMachine "%s".', $transition->getName(), $from, $name));
+                throw new InvalidDefinitionException(sprintf('A transition from a place/state must have an unique name. Multiple transitions named "%s" from place/state "%s" were found in state machine "%s".', $transition->getName(), $from, $name));
             }
 
             $transitionFromNames[$from][$transition->getName()] = true;

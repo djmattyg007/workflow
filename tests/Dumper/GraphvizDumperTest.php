@@ -16,12 +16,15 @@ namespace MattyG\StateMachine\Tests\Dumper;
 
 use PHPUnit\Framework\TestCase;
 use MattyG\StateMachine\Dumper\GraphvizDumper;
-use MattyG\StateMachine\Tests\WorkflowBuilderTrait;
+use MattyG\StateMachine\Tests\StateMachineBuilderTrait;
 
 class GraphvizDumperTest extends TestCase
 {
-    use WorkflowBuilderTrait;
+    use StateMachineBuilderTrait;
 
+    /**
+     * @var GraphvizDumper
+     */
     private $dumper;
 
     protected function setUp(): void
@@ -30,7 +33,7 @@ class GraphvizDumperTest extends TestCase
     }
 
     /**
-     * @dataProvider provideWorkflowDefinitionWithoutState
+     * @dataProvider provideStateMachineDefinitionWithoutState
      */
     public function testDumpWithoutState($definition, $expected)
     {
@@ -40,7 +43,7 @@ class GraphvizDumperTest extends TestCase
     }
 
     /**
-     * @dataProvider provideWorkflowDefinitionWithState
+     * @dataProvider provideStateMachineDefinitionWithState
      */
     public function testDumpWithState($definition, $state, $expected)
     {
@@ -49,28 +52,28 @@ class GraphvizDumperTest extends TestCase
         $this->assertEquals($expected, $dump);
     }
 
-    public function provideWorkflowDefinitionWithState()
+    public function provideStateMachineDefinitionWithState()
     {
         yield [
-            $this->createComplexWorkflowDefinition(),
+            $this->createComplexStateMachineDefinition1(),
             'b',
-            $this->createComplexWorkflowDefinitionDumpWithState(),
+            $this->createComplexStateMachineDefinitionDumpWithState(),
         ];
 
         yield [
-            $this->createSimpleWorkflowDefinition(),
+            $this->createSimpleStateMachineDefinition(),
             'c',
-            $this->createSimpleWorkflowDumpWithState(),
+            $this->createSimpleStateMachineDumpWithState(),
         ];
     }
 
-    public function provideWorkflowDefinitionWithoutState()
+    public function provideStateMachineDefinitionWithoutState()
     {
-        yield [$this->createComplexWorkflowDefinition(), $this->provideComplexWorkflowDumpWithoutState()];
-        yield [$this->createSimpleWorkflowDefinition(), $this->provideSimpleWorkflowDumpWithoutState()];
+        yield [$this->createComplexStateMachineDefinition1(), $this->provideComplexStateMachineDumpWithoutState()];
+        yield [$this->createSimpleStateMachineDefinition(), $this->provideSimpleStateMachineDumpWithoutState()];
     }
 
-    public function createComplexWorkflowDefinitionDumpWithState()
+    public function createComplexStateMachineDefinitionDumpWithState()
     {
         return 'digraph workflow {
   ratio="compress" rankdir="LR"
@@ -112,7 +115,7 @@ class GraphvizDumperTest extends TestCase
 ';
     }
 
-    public function createSimpleWorkflowDumpWithState()
+    public function createSimpleStateMachineDumpWithState()
     {
         return 'digraph workflow {
   ratio="compress" rankdir="LR"
@@ -132,7 +135,7 @@ class GraphvizDumperTest extends TestCase
 ';
     }
 
-    public function provideComplexWorkflowDumpWithoutState()
+    public function provideComplexStateMachineDumpWithoutState()
     {
         return 'digraph workflow {
   ratio="compress" rankdir="LR"
@@ -174,7 +177,7 @@ class GraphvizDumperTest extends TestCase
 ';
     }
 
-    public function provideSimpleWorkflowDumpWithoutState()
+    public function provideSimpleStateMachineDumpWithoutState()
     {
         return 'digraph workflow {
   ratio="compress" rankdir="LR"

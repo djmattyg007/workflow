@@ -16,12 +16,15 @@ namespace MattyG\StateMachine\Tests\Dumper;
 
 use PHPUnit\Framework\TestCase;
 use MattyG\StateMachine\Dumper\StateMachineGraphvizDumper;
-use MattyG\StateMachine\Tests\WorkflowBuilderTrait;
+use MattyG\StateMachine\Tests\StateMachineBuilderTrait;
 
 class StateMachineGraphvizDumperTest extends TestCase
 {
-    use WorkflowBuilderTrait;
+    use StateMachineBuilderTrait;
 
+    /**
+     * @var StateMachineGraphvizDumper
+     */
     private $dumper;
 
     protected function setUp(): void
@@ -31,7 +34,7 @@ class StateMachineGraphvizDumperTest extends TestCase
 
     public function testDumpWithoutState()
     {
-        $definition = $this->createComplexStateMachineDefinition();
+        $definition = $this->createComplexStateMachineDefinition2();
 
         $dump = $this->dumper->dump($definition);
 
@@ -58,7 +61,7 @@ EOGRAPH;
 
     public function testDumpWithState()
     {
-        $definition = $this->createComplexStateMachineDefinition();
+        $definition = $this->createComplexStateMachineDefinition2();
         $state = 'b';
 
         $expected = <<<'EOGRAPH'

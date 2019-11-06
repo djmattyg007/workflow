@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace MattyG\StateMachine\Event;
 
 use MattyG\StateMachine\TransitionInterface;
-use MattyG\StateMachine\WorkflowInterface;
+use MattyG\StateMachine\StateMachineInterface;
 use Symfony\Contracts\EventDispatcher\Event as BaseEvent;
 
 /**
@@ -35,20 +35,20 @@ class Event extends BaseEvent
     private $transition;
 
     /**
-     * @var WorkflowInterface
+     * @var StateMachineInterface
      */
-    private $workflow;
+    private $stateMachine;
 
     /**
      * @param object $subject
      * @param TransitionInterface $transition
-     * @param WorkflowInterface $workflow
+     * @param StateMachineInterface $stateMachine
      */
-    public function __construct(object $subject, TransitionInterface $transition, WorkflowInterface $workflow)
+    public function __construct(object $subject, TransitionInterface $transition, StateMachineInterface $stateMachine)
     {
         $this->subject = $subject;
         $this->transition = $transition;
-        $this->workflow = $workflow;
+        $this->stateMachine = $stateMachine;
     }
 
     /**
@@ -84,23 +84,23 @@ class Event extends BaseEvent
     }
 
     /**
-     * @return WorkflowInterface
+     * @return StateMachineInterface
      */
-    public function getWorkflow(): WorkflowInterface
+    public function getStateMachine(): StateMachineInterface
     {
-        return $this->workflow;
+        return $this->stateMachine;
     }
 
     /**
      * @return string
      */
-    public function getWorkflowName(): string
+    public function getStateMachineName(): string
     {
-        return $this->workflow->getName();
+        return $this->stateMachine->getName();
     }
 
     public function getMetadata(string $key, object $subject)
     {
-        return $this->workflow->getMetadataStore()->getMetadata($key, $subject);
+        return $this->stateMachine->getMetadataStore()->getMetadata($key, $subject);
     }
 }

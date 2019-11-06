@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace MattyG\StateMachine;
 
 use MattyG\StateMachine\Exception\InvalidArgumentException;
-use MattyG\StateMachine\SupportStrategy\WorkflowSupportStrategyInterface;
+use MattyG\StateMachine\SupportStrategy\StateMachineSupportStrategyInterface;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -23,62 +23,86 @@ use MattyG\StateMachine\SupportStrategy\WorkflowSupportStrategyInterface;
  */
 class Registry
 {
-    private $workflows = [];
+    /**
+     * @var array<int, array{0: StateMachineInterface, 1: StateMachineSupportStrategyInterface}>
+     */
+    private $stateMachines = [];
 
-    public function addWorkflow(WorkflowInterface $workflow, WorkflowSupportStrategyInterface $supportStrategy)
+    /**
+     * @param StateMachineInterface $stateMachine
+     * @param StateMachineSupportStrategyInterface $supportStrategy
+     */
+    public function addStateMachine(StateMachineInterface $stateMachine, StateMachineSupportStrategyInterface $supportStrategy): void
     {
-        $this->workflows[] = [$workflow, $supportStrategy];
+        $this->stateMachines[] = [$stateMachine, $supportStrategy];
     }
 
     /**
-     * @return Workflow
+     * @param object $subject
+     * @param string|null $stateMachineName
+     * @return StateMachineInterface
+     * @throws InvalidArgumentException
      */
-    public function get(object $subject, string $workflowName = null)
+    public function get(object $subject, ?string $stateMachineName = null): StateMachineInterface
     {
+        /** @var StateMachineInterface[] $matched */
         $matched = [];
 
-        foreach ($this->workflows as list($workflow, $supportStrategy)) {
-            if ($this->supports($workflow, $supportStrategy, $subject, $workflowName)) {
-                $matched[] = $workflow;
+        foreach ($this->stateMachines as list($stateMachine, $supportStrategy)) {
+            if ($this->supports($stateMachine, $supportStrategy, $subject, $stateMachineName)) {
+                $matched[] = $stateMachine;
             }
         }
 
         if (!$matched) {
-            throw new InvalidArgumentException(sprintf('Unable to find a workflow for class "%s".', \get_class($subject)));
+            throw new InvalidArgumentException(sprintf('Unable to find a state machine for class "%s".', \get_class($subject)));
         }
 
-        if (2 <= \count($matched)) {
-            $names = array_map(static function (WorkflowInterface $workflow): string {
-                return $workflow->getName();
+        if (\count($matched) >= 2) {
+            $names = \array_map(static function (StateMachineInterface $stateMachine): string {
+                return $stateMachine->getName();
             }, $matched);
 
-            throw new InvalidArgumentException(sprintf('Too many workflows (%s) match this subject (%s); set a different name on each and use the second (name) argument of this method.', implode(', ', $names), \get_class($subject)));
+            throw new InvalidArgumentException(sprintf(
+                'Too many state machines (%s) match this subject (%s); set a different name on each and use the second (name) argument of this method.',
+                \implode(', ', $names),
+                \get_class($subject)
+            ));
         }
 
         return $matched[0];
     }
 
     /**
-     * @return Workflow[]
+     * @param object $subject
+     * @return StateMachineInterface[]
      */
     public function all(object $subject): array
     {
+        /** @var StateMachineInterface[] $matched */
         $matched = [];
-        foreach ($this->workflows as list($workflow, $supportStrategy)) {
-            if ($supportStrategy->supports($workflow, $subject)) {
-                $matched[] = $workflow;
+
+        foreach ($this->stateMachines as list($stateMachine, $supportStrategy)) {
+            if ($supportStrategy->supports($stateMachine, $subject)) {
+                $matched[] = $stateMachine;
             }
         }
 
         return $matched;
     }
 
-    private function supports(WorkflowInterface $workflow, WorkflowSupportStrategyInterface $supportStrategy, object $subject, ?string $workflowName): bool
+    /**
+     * @param StateMachineInterface $stateMachine
+     * @param StateMachineSupportStrategyInterface $supportStrategy
+     * @param object $subject
+     * @param string|null $stateMachineName
+     */
+    private function supports(StateMachineInterface $stateMachine, StateMachineSupportStrategyInterface $supportStrategy, object $subject, ?string $stateMachineName): bool
     {
-        if (null !== $workflowName && $workflowName !== $workflow->getName()) {
+        if ($stateMachineName !== null && $stateMachineName !== $stateMachine->getName()) {
             return false;
         }
 
-        return $supportStrategy->supports($workflow, $subject);
+        return $supportStrategy->supports($stateMachine, $subject);
     }
 }

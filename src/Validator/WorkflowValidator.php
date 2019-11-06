@@ -23,6 +23,9 @@ use MattyG\StateMachine\Exception\InvalidDefinitionException;
  */
 class WorkflowValidator implements DefinitionValidatorInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function validate(Definition $definition, string $name): void
     {
         // Make sure all transitions for one place has unique name.

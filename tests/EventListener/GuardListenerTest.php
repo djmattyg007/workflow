@@ -29,7 +29,7 @@ use MattyG\StateMachine\EventListener\GuardExpression;
 use MattyG\StateMachine\EventListener\GuardListener;
 use MattyG\StateMachine\Tests\Subject;
 use MattyG\StateMachine\Transition;
-use MattyG\StateMachine\WorkflowInterface;
+use MattyG\StateMachine\StateMachineInterface;
 
 class GuardListenerTest extends TestCase
 {
@@ -149,9 +149,9 @@ class GuardListenerTest extends TestCase
         $subject = new Subject('from');
         $transition = $transition ?: new Transition('name', 'from', 'to');
 
-        $workflow = $this->getMockBuilder(WorkflowInterface::class)->getMock();
+        $stateMachine = $this->getMockBuilder(StateMachineInterface::class)->getMock();
 
-        return new GuardEvent($subject, $transition, $workflow);
+        return new GuardEvent($subject, $transition, $stateMachine);
     }
 
     private function configureAuthenticationChecker($isUsed, $granted = true)

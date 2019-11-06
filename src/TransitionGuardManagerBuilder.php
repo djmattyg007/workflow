@@ -18,7 +18,7 @@ final class TransitionGuardManagerBuilder
     /**
      * @var callable[]
      */
-    private $canGuards = [];
+    private $availabilityGuards = [];
 
     /**
      * @var callable[]
@@ -33,9 +33,9 @@ final class TransitionGuardManagerBuilder
     /**
      * @param callable $guard
      */
-    public function addCanGuard(callable $guard): void
+    public function addAvailabilityGuard(callable $guard): void
     {
-        $this->canGuards[] = $guard;
+        $this->availabilityGuards[] = $guard;
     }
 
     /**
@@ -60,7 +60,7 @@ final class TransitionGuardManagerBuilder
     public function build(): TransitionGuardManager
     {
         return new TransitionGuardManager(
-            $this->canGuards,
+            $this->availabilityGuards,
             $this->leaveGuards,
             $this->enterGuards
         );

@@ -20,7 +20,7 @@ final class TransitionGuardManager
     /**
      * @var callable[]
      */
-    private $canGuards;
+    private $availabilityGuards;
 
     /**
      * @var callable[]
@@ -33,13 +33,13 @@ final class TransitionGuardManager
     private $enterGuards;
 
     /**
-     * @param callable[] $canGuards
+     * @param callable[] $availabilityGuards
      * @param callable[] $leaveGuards
      * @param callable[] $enterGuards
      */
-    public function __construct(array $canGuards, array $leaveGuards, array $enterGuards)
+    public function __construct(array $availabilityGuards, array $leaveGuards, array $enterGuards)
     {
-        $this->canGuards = $canGuards;
+        $this->availabilityGuards = $availabilityGuards;
         $this->leaveGuards = $leaveGuards;
         $this->enterGuards = $enterGuards;
     }
@@ -47,14 +47,14 @@ final class TransitionGuardManager
     /**
      * @param object $subject
      * @param Transition $transition
-     * @param WorkflowInterface $workflow
+     * @param StateMachineInterface $stateMachine
      * @return bool
      * @throws LogicException
      */
-    public function runCanGuards(object $subject, Transition $transition, WorkflowInterface $workflow): bool
+    public function runAvailabilityGuards(object $subject, Transition $transition, StateMachineInterface $stateMachine): bool
     {
-        foreach ($this->canGuards as $guard) {
-            $can = $guard($subject, $transition, $workflow);
+        foreach ($this->availabilityGuards as $guard) {
+            $can = $guard($subject, $transition, $stateMachine);
             if ($can === false) {
                 return false;
             }
@@ -66,26 +66,26 @@ final class TransitionGuardManager
     /**
      * @param object $subject
      * @param Transition $transition
-     * @param WorkflowInterface $workflow
+     * @param StateMachineInterface $stateMachine
      * @throws LogicException
      */
-    public function runLeaveGuards(object $subject, Transition $transition, WorkflowInterface $workflow): void
+    public function runLeaveGuards(object $subject, Transition $transition, StateMachineInterface $stateMachine): void
     {
         foreach ($this->leaveGuards as $guard) {
-            $guard($subject, $transition, $workflow);
+            $guard($subject, $transition, $stateMachine);
         }
     }
 
     /**
      * @param object $subject
      * @param Transition $transition
-     * @param WorkflowInterface $workflow
+     * @param StateMachineInterface $stateMachine
      * @throws LogicException
      */
-    public function runEnterGuards(object $subject, Transition $transition, WorkflowInterface $workflow): void
+    public function runEnterGuards(object $subject, Transition $transition, StateMachineInterface $stateMachine): void
     {
         foreach ($this->enterGuards as $guard) {
-            $guard($subject, $transition, $workflow);
+            $guard($subject, $transition, $stateMachine);
         }
     }
 }

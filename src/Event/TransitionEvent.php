@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace MattyG\StateMachine\Event;
 
 use MattyG\StateMachine\TransitionInterface;
-use MattyG\StateMachine\WorkflowInterface;
+use MattyG\StateMachine\StateMachineInterface;
 
 final class TransitionEvent extends Event
 {
@@ -28,9 +28,9 @@ final class TransitionEvent extends Event
      * {@inheritdoc}
      * @param array $context
      */
-    public function __construct(object $subject, TransitionInterface $transition, WorkflowInterface $workflow, array $context = [])
+    public function __construct(object $subject, TransitionInterface $transition, StateMachineInterface $stateMachine, array $context = [])
     {
-        parent::__construct($subject, $transition, $workflow);
+        parent::__construct($subject, $transition, $stateMachine);
 
         $this->context = $context;
     }

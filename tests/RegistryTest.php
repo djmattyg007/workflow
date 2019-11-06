@@ -19,10 +19,11 @@ use MattyG\StateMachine\Definition;
 use MattyG\StateMachine\Exception\InvalidArgumentException;
 use MattyG\StateMachine\Registry;
 use MattyG\StateMachine\StateAccessor\StateAccessorInterface;
-use MattyG\StateMachine\SupportStrategy\WorkflowSupportStrategyInterface;
+use MattyG\StateMachine\SupportStrategy\StateMachineSupportStrategyInterface;
 use MattyG\StateMachine\Transition;
-use MattyG\StateMachine\Workflow;
+use MattyG\StateMachine\StateMachine;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use stdClass;
 
 class RegistryTest extends TestCase
 {
@@ -32,32 +33,32 @@ class RegistryTest extends TestCase
     {
         $this->registry = new Registry();
 
-        $this->registry->addWorkflow(
-            new Workflow(
+        $this->registry->addStateMachine(
+            new StateMachine(
                 new Definition(['a', 'b'], [new Transition('a_to_b', 'a', 'b')]),
                 $this->getMockBuilder(StateAccessorInterface::class)->getMock(),
                 $this->getMockBuilder(EventDispatcherInterface::class)->getMock(),
-                'workflow1'
+                'statemachine1'
             ),
-            $this->createWorkflowSupportStrategy(Subject1::class)
+            $this->createStateMachineSupportStrategy(Subject1::class)
         );
-        $this->registry->addWorkflow(
-            new Workflow(
+        $this->registry->addStateMachine(
+            new StateMachine(
                 new Definition(['m', 'n'], [new Transition('m_to_n', 'm', 'n')]),
                 $this->getMockBuilder(StateAccessorInterface::class)->getMock(),
                 $this->getMockBuilder(EventDispatcherInterface::class)->getMock(),
-                'workflow2'
+                'statemachine2'
             ),
-            $this->createWorkflowSupportStrategy(Subject2::class)
+            $this->createStateMachineSupportStrategy(Subject2::class)
         );
-        $this->registry->addWorkflow(
-            new Workflow(
+        $this->registry->addStateMachine(
+            new StateMachine(
                 new Definition(['x', 'y'], [new Transition('x_to_y', 'x', 'y')]),
                 $this->getMockBuilder(StateAccessorInterface::class)->getMock(),
                 $this->getMockBuilder(EventDispatcherInterface::class)->getMock(),
-                'workflow3'
+                'statemachine3'
             ),
-            $this->createWorkflowSupportStrategy(Subject2::class)
+            $this->createStateMachineSupportStrategy(Subject2::class)
         );
     }
 
@@ -68,69 +69,71 @@ class RegistryTest extends TestCase
 
     public function testGetWithSuccess()
     {
-        $workflow = $this->registry->get(new Subject1());
-        $this->assertInstanceOf(Workflow::class, $workflow);
-        $this->assertSame('workflow1', $workflow->getName());
+        $stateMachine = $this->registry->get(new Subject1());
+        $this->assertInstanceOf(StateMachine::class, $stateMachine);
+        $this->assertSame('statemachine1', $stateMachine->getName());
 
-        $workflow = $this->registry->get(new Subject1(), 'workflow1');
-        $this->assertInstanceOf(Workflow::class, $workflow);
-        $this->assertSame('workflow1', $workflow->getName());
+        $stateMachine = $this->registry->get(new Subject1(), 'statemachine1');
+        $this->assertInstanceOf(StateMachine::class, $stateMachine);
+        $this->assertSame('statemachine1', $stateMachine->getName());
 
-        $workflow = $this->registry->get(new Subject2(), 'workflow2');
-        $this->assertInstanceOf(Workflow::class, $workflow);
-        $this->assertSame('workflow2', $workflow->getName());
+        $stateMachine = $this->registry->get(new Subject2(), 'statemachine2');
+        $this->assertInstanceOf(StateMachine::class, $stateMachine);
+        $this->assertSame('statemachine2', $stateMachine->getName());
     }
 
     public function testGetWithMultipleMatch()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Too many workflows (workflow2, workflow3) match this subject (MattyG\StateMachine\Tests\Subject2); set a different name on each and use the second (name) argument of this method.');
-        $w1 = $this->registry->get(new Subject2());
-        $this->assertInstanceOf(Workflow::class, $w1);
-        $this->assertSame('workflow1', $w1->getName());
+        $this->expectExceptionMessage('Too many state machines (statemachine2, statemachine3) match this subject (MattyG\StateMachine\Tests\Subject2); set a different name on each and use the second (name) argument of this method.');
+        $this->registry->get(new Subject2());
+        //$stateMachine = $this->registry->get(new Subject2());
+        //$this->assertInstanceOf(StateMachine::class, $stateMachine);
+        //$this->assertSame('statemachine1', $stateMachine->getName());
     }
 
     public function testGetWithNoMatch()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Unable to find a workflow for class "stdClass".');
-        $w1 = $this->registry->get(new \stdClass());
-        $this->assertInstanceOf(Workflow::class, $w1);
-        $this->assertSame('workflow1', $w1->getName());
+        $this->expectExceptionMessage('Unable to find a state machine for class "stdClass".');
+        $this->registry->get(new stdClass());
+        //$stateMachine = $this->registry->get(new stdClass());
+        //$this->assertInstanceOf(StateMachine::class, $stateMachine);
+        //$this->assertSame('statemachine1', $stateMachine->getName());
     }
 
     public function testAllWithOneMatchWithSuccess()
     {
-        $workflows = $this->registry->all(new Subject1());
-        $this->assertIsArray($workflows);
-        $this->assertCount(1, $workflows);
-        $this->assertInstanceOf(Workflow::class, $workflows[0]);
-        $this->assertSame('workflow1', $workflows[0]->getName());
+        $stateMachines = $this->registry->all(new Subject1());
+        $this->assertIsArray($stateMachines);
+        $this->assertCount(1, $stateMachines);
+        $this->assertInstanceOf(StateMachine::class, $stateMachines[0]);
+        $this->assertSame('statemachine1', $stateMachines[0]->getName());
     }
 
     public function testAllWithMultipleMatchWithSuccess()
     {
-        $workflows = $this->registry->all(new Subject2());
-        $this->assertIsArray($workflows);
-        $this->assertCount(2, $workflows);
-        $this->assertInstanceOf(Workflow::class, $workflows[0]);
-        $this->assertInstanceOf(Workflow::class, $workflows[1]);
-        $this->assertSame('workflow2', $workflows[0]->getName());
-        $this->assertSame('workflow3', $workflows[1]->getName());
+        $stateMachines = $this->registry->all(new Subject2());
+        $this->assertIsArray($stateMachines);
+        $this->assertCount(2, $stateMachines);
+        $this->assertInstanceOf(StateMachine::class, $stateMachines[0]);
+        $this->assertInstanceOf(StateMachine::class, $stateMachines[1]);
+        $this->assertSame('statemachine2', $stateMachines[0]->getName());
+        $this->assertSame('statemachine3', $stateMachines[1]->getName());
     }
 
     public function testAllWithNoMatch()
     {
-        $workflows = $this->registry->all(new \stdClass());
-        $this->assertIsArray($workflows);
-        $this->assertCount(0, $workflows);
+        $stateMachines = $this->registry->all(new stdClass());
+        $this->assertIsArray($stateMachines);
+        $this->assertCount(0, $stateMachines);
     }
 
-    private function createWorkflowSupportStrategy($supportedClassName)
+    private function createStateMachineSupportStrategy($supportedClassName)
     {
-        $strategy = $this->getMockBuilder(WorkflowSupportStrategyInterface::class)->getMock();
+        $strategy = $this->getMockBuilder(StateMachineSupportStrategyInterface::class)->getMock();
         $strategy->expects($this->any())->method('supports')
-            ->willReturnCallback(function ($workflow, $subject) use ($supportedClassName) {
+            ->willReturnCallback(function ($stateMachine, $subject) use ($supportedClassName) {
                 return $subject instanceof $supportedClassName;
             });
 

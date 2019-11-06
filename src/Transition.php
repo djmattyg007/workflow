@@ -83,14 +83,14 @@ class Transition implements TransitionInterface
     /**
      * {@inheritdoc}
      */
-    public function checkIsAvailable(object $subject, WorkflowInterface $workflow): bool
+    public function checkIsAvailable(object $subject, StateMachineInterface $stateMachine): bool
     {
         if ($this->guardManager === null) {
             return true;
         }
 
         try {
-            $result = $this->guardManager->runCanGuards($subject, $this, $workflow);
+            $result = $this->guardManager->runAvailabilityGuards($subject, $this, $stateMachine);
         } catch (LogicException $e) {
             return false;
         }
@@ -101,24 +101,24 @@ class Transition implements TransitionInterface
     /**
      * {@inheritdoc}
      */
-    public function checkCanLeave(object $subject, WorkflowInterface $workflow): void
+    public function checkCanLeave(object $subject, StateMachineInterface $stateMachine): void
     {
         if ($this->guardManager === null) {
             return;
         }
 
-        $this->guardManager->runLeaveGuards($subject, $this, $workflow);
+        $this->guardManager->runLeaveGuards($subject, $this, $stateMachine);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function checkCanEnter(object $subject, WorkflowInterface $workflow): void
+    public function checkCanEnter(object $subject, StateMachineInterface $stateMachine): void
     {
         if ($this->guardManager === null) {
             return;
         }
 
-        $this->guardManager->runEnterGuards($subject, $this, $workflow);
+        $this->guardManager->runEnterGuards($subject, $this, $stateMachine);
     }
 }

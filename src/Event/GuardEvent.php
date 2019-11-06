@@ -17,7 +17,7 @@ namespace MattyG\StateMachine\Event;
 use MattyG\StateMachine\TransitionInterface;
 use MattyG\StateMachine\TransitionBlocker;
 use MattyG\StateMachine\TransitionBlockerList;
-use MattyG\StateMachine\WorkflowInterface;
+use MattyG\StateMachine\StateMachineInterface;
 
 /**
  * @author Fabien Potencier <fabien@symfony.com>
@@ -33,9 +33,9 @@ final class GuardEvent extends Event
     /**
      * {@inheritdoc}
      */
-    public function __construct(object $subject, TransitionInterface $transition, WorkflowInterface $workflow)
+    public function __construct(object $subject, TransitionInterface $transition, StateMachineInterface $stateMachine)
     {
-        parent::__construct($subject, $transition, $workflow);
+        parent::__construct($subject, $transition, $stateMachine);
 
         $this->transitionBlockerList = new TransitionBlockerList();
     }
@@ -48,6 +48,9 @@ final class GuardEvent extends Event
         return !$this->transitionBlockerList->isEmpty();
     }
 
+    /**
+     * @param bool $blocked
+     */
     public function setBlocked(bool $blocked): void
     {
         if (!$blocked) {
@@ -59,11 +62,17 @@ final class GuardEvent extends Event
         $this->transitionBlockerList->add(TransitionBlocker::createUnknown());
     }
 
+    /**
+     * @return TransitionBlockerList
+     */
     public function getTransitionBlockerList(): TransitionBlockerList
     {
         return $this->transitionBlockerList;
     }
 
+    /**
+     * @param TransitionBlocker $transitionBlocker
+     */
     public function addTransitionBlocker(TransitionBlocker $transitionBlocker): void
     {
         $this->transitionBlockerList->add($transitionBlocker);

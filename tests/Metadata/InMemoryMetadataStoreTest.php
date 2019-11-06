@@ -29,8 +29,8 @@ class InMemoryMetadataStoreTest extends TestCase
 
     protected function setUp(): void
     {
-        $workflowMetadata = [
-            'title' => 'workflow title',
+        $stateMachineMetadata = [
+            'title' => 'statemachine title',
         ];
         $placesMetadata = [
             'place_a' => [
@@ -43,13 +43,13 @@ class InMemoryMetadataStoreTest extends TestCase
             'title' => 'transition_1 title',
         ];
 
-        $this->store = new InMemoryMetadataStore($workflowMetadata, $placesMetadata, $transitionsMetadata);
+        $this->store = new InMemoryMetadataStore($stateMachineMetadata, $placesMetadata, $transitionsMetadata);
     }
 
-    public function testGetWorkflowMetadata()
+    public function testGetStateMachineMetadata()
     {
-        $metadataBag = $this->store->getWorkflowMetadata();
-        $this->assertSame('workflow title', $metadataBag['title']);
+        $metadataBag = $this->store->getStateMachineMetadata();
+        $this->assertSame('statemachine title', $metadataBag['title']);
     }
 
     public function testGetUnexistingPlaceMetadata()
@@ -78,7 +78,7 @@ class InMemoryMetadataStoreTest extends TestCase
 
     public function testGetMetadata()
     {
-        $this->assertSame('workflow title', $this->store->getMetadata('title'));
+        $this->assertSame('statemachine title', $this->store->getMetadata('title'));
         $this->assertNull($this->store->getMetadata('description'));
         $this->assertSame('place_a title', $this->store->getMetadata('title', 'place_a'));
         $this->assertNull($this->store->getMetadata('description', 'place_a'));

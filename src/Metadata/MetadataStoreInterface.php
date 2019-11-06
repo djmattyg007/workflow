@@ -17,16 +17,27 @@ namespace MattyG\StateMachine\Metadata;
 use MattyG\StateMachine\TransitionInterface;
 
 /**
- * MetadataStoreInterface is able to fetch metadata for a specific workflow.
+ * MetadataStoreInterface is able to fetch metadata for a specific state machine.
  *
  * @author Grégoire Pineau <lyrixx@lyrixx.info>
  */
 interface MetadataStoreInterface
 {
-    public function getWorkflowMetadata(): array;
+    /**
+     * @return array
+     */
+    public function getStateMachineMetadata(): array;
 
+    /**
+     * @param string $place
+     * @return array
+     */
     public function getPlaceMetadata(string $place): array;
 
+    /**
+     * @param TransitionInterface $transition
+     * @return array
+     */
     public function getTransitionMetadata(TransitionInterface $transition): array;
 
     /**
@@ -34,7 +45,7 @@ interface MetadataStoreInterface
      *
      * This is a proxy method.
      *
-     * @param string|TransitionInterface|null $subject Use null to get workflow metadata
+     * @param string|TransitionInterface|null $subject Use null to get state machine metadata
      *                                                 Use a string (the place name) to get place metadata
      *                                                 Use a TransitionInterface instance to get transition metadata
      */

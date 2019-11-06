@@ -276,7 +276,7 @@ class WorkflowTest extends TestCase
 
             $this->fail('Should throw an exception');
         } catch (NotEnabledTransitionException $e) {
-            $this->assertSame('Transition "t2" is not enabled for state machine "unnamed".', $e->getMessage());
+            $this->assertSame('Transition "t2" is not valid for subject in state "a" for state machine "unnamed".', $e->getMessage());
             $this->assertCount(1, $e->getTransitionBlockerList());
             $list = iterator_to_array($e->getTransitionBlockerList());
             $this->assertSame('The state does not enable the transition.', $list[0]->getMessage());

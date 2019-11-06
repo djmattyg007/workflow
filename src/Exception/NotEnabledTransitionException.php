@@ -37,7 +37,7 @@ class NotEnabledTransitionException extends TransitionException
      */
     public function __construct(object $subject, string $transitionName, StateMachineInterface $stateMachine, TransitionBlockerList $transitionBlockerList)
     {
-        parent::__construct($subject, $transitionName, $stateMachine, sprintf('Transition "%s" is not enabled for state machine "%s".', $transitionName, $stateMachine->getName()));
+        parent::__construct($subject, $transitionName, $stateMachine, sprintf('Transition "%s" is not valid for subject in state "%s" for state machine "%s".', $transitionName, $stateMachine->getState($subject), $stateMachine->getName()));
 
         $this->transitionBlockerList = $transitionBlockerList;
     }

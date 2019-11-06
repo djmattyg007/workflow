@@ -46,16 +46,16 @@ final class TransitionGuardManager
 
     /**
      * @param object $subject
-     * @param Transition $transition
+     * @param TransitionInterface $transition
      * @param StateMachineInterface $stateMachine
      * @return bool
      * @throws LogicException
      */
-    public function runAvailabilityGuards(object $subject, Transition $transition, StateMachineInterface $stateMachine): bool
+    public function runAvailabilityGuards(object $subject, TransitionInterface $transition, StateMachineInterface $stateMachine): bool
     {
         foreach ($this->availabilityGuards as $guard) {
-            $can = $guard($subject, $transition, $stateMachine);
-            if ($can === false) {
+            $available = $guard($subject, $transition, $stateMachine);
+            if ($available === false) {
                 return false;
             }
         }
@@ -65,11 +65,11 @@ final class TransitionGuardManager
 
     /**
      * @param object $subject
-     * @param Transition $transition
+     * @param TransitionInterface $transition
      * @param StateMachineInterface $stateMachine
      * @throws LogicException
      */
-    public function runLeaveGuards(object $subject, Transition $transition, StateMachineInterface $stateMachine): void
+    public function runLeaveGuards(object $subject, TransitionInterface $transition, StateMachineInterface $stateMachine): void
     {
         foreach ($this->leaveGuards as $guard) {
             $guard($subject, $transition, $stateMachine);
@@ -78,11 +78,11 @@ final class TransitionGuardManager
 
     /**
      * @param object $subject
-     * @param Transition $transition
+     * @param TransitionInterface $transition
      * @param StateMachineInterface $stateMachine
      * @throws LogicException
      */
-    public function runEnterGuards(object $subject, Transition $transition, StateMachineInterface $stateMachine): void
+    public function runEnterGuards(object $subject, TransitionInterface $transition, StateMachineInterface $stateMachine): void
     {
         foreach ($this->enterGuards as $guard) {
             $guard($subject, $transition, $stateMachine);

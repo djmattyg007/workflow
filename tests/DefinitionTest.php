@@ -16,6 +16,7 @@ namespace MattyG\StateMachine\Tests;
 
 use PHPUnit\Framework\TestCase;
 use MattyG\StateMachine\Definition;
+use MattyG\StateMachine\Exception\InvalidArgumentException;
 use MattyG\StateMachine\Exception\LogicException;
 use MattyG\StateMachine\Transition;
 
@@ -73,5 +74,19 @@ class DefinitionTest extends TestCase
         $places = range('a', 'b');
 
         new Definition($places, [new Transition('name', $places[0], 'c')]);
+    }
+
+    public function testNoPlaces()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Cannot have a state machine definition with no places.');
+        new Definition([], []);
+    }
+
+    public function testNoTransitions()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Cannot have a state machine definition with no transitions.');
+        new Definition(['a', 'b'], []);
     }
 }

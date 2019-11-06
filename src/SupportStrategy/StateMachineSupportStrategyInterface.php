@@ -21,5 +21,10 @@ use MattyG\StateMachine\StateMachineInterface;
  */
 interface StateMachineSupportStrategyInterface
 {
+    /**
+     * @param StateMachineInterface $stateMachine
+     * @param object $subject
+     * @return bool
+     */
     public function supports(StateMachineInterface $stateMachine, object $subject): bool;
 }
